@@ -1,0 +1,31 @@
+.header {
+  height: 40px;
+}
+
+.navigation {
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.navigation__list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.navigation__group {
+  display: flex;
+}
+
+.navigation__item {
+  display: flex;
+  align-items: center;
+}
+
+.logo__container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}

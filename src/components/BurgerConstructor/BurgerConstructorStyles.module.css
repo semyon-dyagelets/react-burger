@@ -1,0 +1,22 @@
+.constructor {
+  max-width: 600px;
+}
+
+.elements {
+  max-height: 612px;
+  overflow-y: scroll;
+}
+
+.element__container {
+  display: flex;
+  align-items: center;
+}
+
+.purchase__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.price__container {
+}
