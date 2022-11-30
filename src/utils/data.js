@@ -289,6 +289,22 @@ export const BurgerConstructorData = [
     __v: 0,
   },
   {
+    _id: "60666c42cc7b410027a1a9bb",
+    name: "Хрустящие минеральные кольца",
+    type: "main",
+    proteins: 808,
+    fat: 689,
+    carbohydrates: 609,
+    calories: 986,
+    price: 300,
+    image: "https://code.s3.yandex.net/react/code/mineral_rings.png",
+    image_mobile:
+      "https://code.s3.yandex.net/react/code/mineral_rings-mobile.png",
+    image_large:
+      "https://code.s3.yandex.net/react/code/mineral_rings-large.png",
+    __v: 0,
+  },
+  {
     _id: "60666c42cc7b410027a1a9b1",
     name: "Краторная булка N-200i",
     type: "bun",

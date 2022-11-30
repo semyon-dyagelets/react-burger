@@ -2,13 +2,21 @@
   max-width: 600px;
 }
 
-.elements {
-  max-height: 612px;
-  overflow-y: scroll;
+.elements,
+.elements__mainingridients {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.elements__mainingridients {
+  max-height: 464px;
+  overflow: auto;
 }
 
 .element__container {
   display: flex;
+  justify-content: flex-end;
   align-items: center;
 }
 

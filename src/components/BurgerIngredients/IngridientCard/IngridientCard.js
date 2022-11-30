@@ -1,11 +1,12 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import IngridientCardStyles from "./IngridientCardStyles.module.css";
+import { ingridientPropTypes } from "../../../utils/types";
 
 export const IngridientCard = ({ ingridient }) => {
   const { image, price, name } = ingridient;
   return (
     <li className={IngridientCardStyles.card}>
-      <img src={image} alt="ингридиент"></img>
+      <img src={image} alt={name}></img>
       <div className={`${IngridientCardStyles.card__price} mt-1`}>
         <span className="text text_type_digits-default mr-1">{price}</span>
         <CurrencyIcon type="primary" />
@@ -17,4 +18,8 @@ export const IngridientCard = ({ ingridient }) => {
       </p>
     </li>
   );
+};
+
+IngridientCard.propTypes = {
+  ingridient: ingridientPropTypes.isRequired,
 };

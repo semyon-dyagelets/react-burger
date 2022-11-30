@@ -7,29 +7,64 @@ import {
   DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorStyles from "./BurgerConstructorStyles.module.css";
+import { ingridientPropTypes } from "../../utils/types";
 
 export const BurgerConstructor = ({ elements }) => {
+  const buns = elements.filter((ingridient) => ingridient.type === "bun");
+  const upperBun = buns[0];
+  const bottomBun = buns[1];
+  const mainIngridients = elements.filter(
+    (ingridient) => ingridient.type !== "bun"
+  );
   return (
     <>
       <section
         className={`${BurgerConstructorStyles.constructor} pt-25 pr-4 pl-4`}
       >
-        <div
-          className={`${BurgerConstructorStyles.elements} custom-scroll`}
-          style={{ display: "flex", flexDirection: "column", gap: "10px" }}
-        >
-          {elements.map((element) => (
+        <div className={BurgerConstructorStyles.elements}>
+          {upperBun && (
             <div className={BurgerConstructorStyles.element__container}>
-              <DragIcon type="primary" />
               <ConstructorElement
-                //   type="top"
+                type="top"
                 isLocked={true}
-                text={element.name}
-                price={element.price}
-                thumbnail={element.image}
+                text={`${upperBun.name} (верх)`}
+                price={upperBun.price}
+                thumbnail={upperBun.image}
               />
             </div>
-          ))}
+          )}
+          <ul
+            className={`${BurgerConstructorStyles.elements__mainingridients} custom-scroll`}
+          >
+            {mainIngridients.map((element) => (
+              <li
+                className={BurgerConstructorStyles.element__container}
+                key={element._id}
+              >
+                <DragIcon type="primary" />
+                <ConstructorElement
+                  type="undefined"
+                  isLocked={false}
+                  text={element.name}
+                  price={element.price}
+                  thumbnail={element.image}
+                />
+              </li>
+            ))}
+          </ul>
+          {bottomBun && (
+            <div
+              className={`${BurgerConstructorStyles.element__container} pl-8`}
+            >
+              <ConstructorElement
+                type="bottom"
+                isLocked={true}
+                text={`${bottomBun.name} (низ)`}
+                price={bottomBun.price}
+                thumbnail={bottomBun.image}
+              />
+            </div>
+          )}
         </div>
         <div className={`${BurgerConstructorStyles.purchase__container} mt-10`}>
           <div className={`${BurgerConstructorStyles.price__container}, mr-10`}>
@@ -45,21 +80,6 @@ export const BurgerConstructor = ({ elements }) => {
   );
 };
 
-const elementPropTypes = PropTypes.shape({
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.oneOf(["bun", "main", "sauce"]),
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  calories: PropTypes.number,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-  __v: PropTypes.number,
-});
-
 BurgerConstructor.propTypes = {
-  elements: PropTypes.arrayOf(elementPropTypes).isRequired,
+  elements: PropTypes.arrayOf(ingridientPropTypes).isRequired,
 };

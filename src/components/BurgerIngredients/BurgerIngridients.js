@@ -1,8 +1,8 @@
 import PropTypes from "prop-types";
 import BurgerIngridientsStyles from "./BurgerIngridients.module.css";
 import { IngridientCard } from "./IngridientCard/IngridientCard";
-
 import { Tabs } from "../BurgerIngredients/Tabs/Tabs";
+import { ingridientPropTypes } from "../../utils/types";
 
 export const BurgerIngridients = ({ ingridients }) => {
   const buns = ingridients.filter((ingridient) => ingridient.type === "bun");
@@ -42,21 +42,6 @@ export const BurgerIngridients = ({ ingridients }) => {
     </section>
   );
 };
-
-const ingridientPropTypes = PropTypes.shape({
-  _id: PropTypes.string,
-  name: PropTypes.string,
-  type: PropTypes.oneOf(["bun", "main", "sauce"]),
-  proteins: PropTypes.number,
-  fat: PropTypes.number,
-  carbohydrates: PropTypes.number,
-  calories: PropTypes.number,
-  price: PropTypes.number,
-  image: PropTypes.string,
-  image_mobile: PropTypes.string,
-  image_large: PropTypes.string,
-  __v: PropTypes.number,
-});
 
 BurgerIngridients.propTypes = {
   ingridients: PropTypes.arrayOf(ingridientPropTypes).isRequired,
