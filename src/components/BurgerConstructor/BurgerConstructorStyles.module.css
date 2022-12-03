@@ -1,0 +1,30 @@
+.constructor {
+  max-width: 600px;
+}
+
+.elements,
+.elements__mainingridients {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.elements__mainingridients {
+  max-height: 464px;
+  overflow: auto;
+}
+
+.element__container {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.purchase__container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.price__container {
+}
