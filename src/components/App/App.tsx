@@ -1,23 +1,48 @@
-import React from "react";
-import AppStyles from "./App.module.css";
+import { useEffect, useState } from "react";
 
 import { AppHeader } from "../AppHeader/AppHeader";
 import { BurgerIngridients } from "../BurgerIngredients/BurgerIngridients";
 import { BurgerConstructor } from "../BurgerConstructor/BurgerConstructor";
+import { BASE_URL } from "../../utils/constants";
 
-import { BurgerIngridientsData, BurgerConstructorData } from "../../utils/data";
+import AppStyles from "./App.module.css";
 
 function App() {
+  const [infridientsData, setInfridientsData] = useState([]);
+  const [isErrorFetching, setIsErrorFetching] = useState(false);
+
+  useEffect(() => {
+    fetch(BASE_URL)
+      .then((response) => response.json())
+      .then((result) => {
+        setInfridientsData(result.data);
+      })
+      .catch((error) => {
+        setIsErrorFetching(true);
+        console.log(error.message);
+      });
+  }, []);
+
   return (
-    <div className={AppStyles.app}>
-      <div className={AppStyles.page}>
-        <AppHeader />
-        <main className={AppStyles.main}>
-          <BurgerIngridients ingridients={BurgerIngridientsData} />
-          <BurgerConstructor elements={BurgerConstructorData} />
-        </main>
+    <>
+      <div className={AppStyles.app}>
+        <div className={AppStyles.page}>
+          <AppHeader />
+          <main className={AppStyles.main}>
+            {isErrorFetching ? (
+              <p className="text text_type_main-default">
+                Ошибка при загрузке ингредиентов. Попробуйте зайти позднее
+              </p>
+            ) : (
+              <>
+                <BurgerIngridients ingridients={infridientsData} />
+                <BurgerConstructor elements={infridientsData} />
+              </>
+            )}
+          </main>
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

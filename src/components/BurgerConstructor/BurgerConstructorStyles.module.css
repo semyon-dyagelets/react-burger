@@ -26,5 +26,25 @@
   justify-content: flex-end;
 }
 
-.price__container {
+.modal__content_constructor {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.modal__approved {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background-image: url("../../images/approved.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.modal__close_constructor {
+  top: 60px;
+  right: 40px;
 }
