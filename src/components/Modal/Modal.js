@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactDom from "react-dom";
 import PropTypes from "prop-types";
 
@@ -15,6 +15,16 @@ export const Modal = ({
   className,
   onClose,
 }) => {
+  useEffect(() => {
+    const handleEscapeKey = (event) => {
+      if (event.code === "Escape") {
+        onClose();
+      }
+    };
+    document.addEventListener("keydown", handleEscapeKey);
+    return () => document.removeEventListener("keydown", handleEscapeKey);
+  }, [onClose]);
+
   return ReactDom.createPortal(
     <>
       <ModalOverlay handleClickOutsideModal={onClose} />
