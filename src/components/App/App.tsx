@@ -13,9 +13,17 @@ function App() {
 
   useEffect(() => {
     fetch(BASE_URL)
-      .then((response) => response.json())
+      .then((response) => {
+        if (response.ok) {
+          return response.json();
+        }
+        return Promise.reject(response);
+      })
       .then((result) => {
-        setInfridientsData(result.data);
+        if (result.data) {
+          return setInfridientsData(result.data);
+        }
+        return Promise.reject(result);
       })
       .catch((error) => {
         setIsErrorFetching(true);
@@ -24,25 +32,23 @@ function App() {
   }, []);
 
   return (
-    <>
-      <div className={AppStyles.app}>
-        <div className={AppStyles.page}>
-          <AppHeader />
-          <main className={AppStyles.main}>
-            {isErrorFetching ? (
-              <p className="text text_type_main-default">
-                Ошибка при загрузке ингредиентов. Попробуйте зайти позднее
-              </p>
-            ) : (
-              <>
-                <BurgerIngridients ingridients={infridientsData} />
-                <BurgerConstructor elements={infridientsData} />
-              </>
-            )}
-          </main>
-        </div>
+    <div className={AppStyles.app}>
+      <div className={AppStyles.page}>
+        <AppHeader />
+        <main className={AppStyles.main}>
+          {isErrorFetching ? (
+            <p className="text text_type_main-default">
+              Ошибка при загрузке ингредиентов. Попробуйте зайти позднее
+            </p>
+          ) : (
+            <>
+              <BurgerIngridients ingridients={infridientsData} />
+              <BurgerConstructor elements={infridientsData} />
+            </>
+          )}
+        </main>
       </div>
-    </>
+    </div>
   );
 }
 
