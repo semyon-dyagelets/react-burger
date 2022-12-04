@@ -1,27 +1,11 @@
-import { useState } from "react";
+import PropTypes from "prop-types";
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Modal } from "../../Modal/Modal";
-import { IngredientDetails } from "../IngredientDetails/IngredientDetails";
 import { ingridientPropTypes } from "../../../utils/types";
 
 import IngridientCardStyles from "./IngridientCardStyles.module.css";
 
-export const IngridientCard = ({ ingridient }) => {
+export const IngridientCard = ({ ingridient, onIngridientCardClick }) => {
   const { image, name, price } = ingridient;
-
-  const [isShowIngridientModal, setIsShowIngridientModal] = useState(false);
-
-  const openIngridientModal = () => {
-    setIsShowIngridientModal(true);
-  };
-
-  const closeIngridientModal = () => {
-    setIsShowIngridientModal(false);
-  };
-
-  const onIngridientCardClick = () => {
-    openIngridientModal();
-  };
 
   return (
     <>
@@ -37,19 +21,11 @@ export const IngridientCard = ({ ingridient }) => {
           {name}
         </p>
       </li>
-      {isShowIngridientModal && (
-        <Modal
-          onClose={closeIngridientModal}
-          className={`${IngridientCardStyles.modal__content_ingridient} pt-10 pr-10 pb-15 pl-10`}
-          buttonCloseClassName={`${IngridientCardStyles.modal__close_ingridient}`}
-        >
-          <IngredientDetails ingridient={ingridient} />
-        </Modal>
-      )}
     </>
   );
 };
 
 IngridientCard.propTypes = {
   ingridient: ingridientPropTypes.isRequired,
+  onIngridientCardClick: PropTypes.func.isRequired,
 };
