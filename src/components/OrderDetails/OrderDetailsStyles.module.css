@@ -1,0 +1,10 @@
+.modal__approved {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 120px;
+  height: 120px;
+  background-image: url("../../images/approved.png");
+  background-repeat: no-repeat;
+  background-position: center;
+}

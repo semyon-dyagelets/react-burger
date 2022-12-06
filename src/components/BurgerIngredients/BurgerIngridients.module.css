@@ -13,3 +13,14 @@
   column-gap: 24px;
   row-gap: 32px;
 }
+
+.modal__content_ingridient {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.modal__close_ingridient {
+  top: 50px;
+  right: 40px;
+}
