@@ -37,13 +37,10 @@ textarea {
 
 button,
 input {
-  /* 1 */
   overflow: visible;
 }
-
 button,
 select {
-  /* 1 */
   text-transform: none;
 }
 
@@ -52,6 +49,5 @@ button,
 [type="reset"],
 [type="submit"] {
   -webkit-appearance: button;
-  background: none;
   border: none;
 }

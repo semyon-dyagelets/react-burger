@@ -1,8 +1,8 @@
-.ingridients {
+.ingredients {
   max-width: 600px;
 }
 
-.ingridients__container {
+.Ingredients__container {
   max-height: 756px;
   overflow-y: auto;
 }
