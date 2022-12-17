@@ -18,7 +18,7 @@ export const detailsReducer = (state = initialState, action) => {
     case CLOSE_INGREDIENT_DETAILS: {
       return {
         ...state,
-        selectedIngridient: {},
+        selectedIngridient: null,
       };
     }
     default: {

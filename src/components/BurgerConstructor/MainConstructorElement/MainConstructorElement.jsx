@@ -69,7 +69,7 @@ export const MainConstructorElement = ({
 };
 
 MainConstructorElement.propTypes = {
-  index: PropTypes.bool.isRequired,
+  index: PropTypes.number.isRequired,
   element: ingredientPropTypes.isRequired,
   typeOfElement: PropTypes.string.isRequired,
   onCloseClick: PropTypes.func.isRequired,

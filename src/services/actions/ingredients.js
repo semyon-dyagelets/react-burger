@@ -10,8 +10,8 @@ export const DECREASE_INGREDIENT_COUNT = "DECREASE_INGREDIENT_COUNT";
 export const fetchIngredients = () => {
   return (dispatch) => {
     dispatch({ type: FETCH_INGREDIENTS_REQUEST });
-    getIngredients()
-      .then((data) => {
+    getIngredients().then((data) => {
+      if (data) {
         const ingredientsWithQuantity = data.map((ingredient) => ({
           ...ingredient,
           quantityInOrder: 0,
@@ -20,7 +20,9 @@ export const fetchIngredients = () => {
           type: FETCH_INGREDIENTS_SUCCESS,
           payload: ingredientsWithQuantity,
         });
-      })
-      .catch(dispatch({ type: FETCH_INGREDIENTS_ERROR }));
+      } else {
+        dispatch({ type: FETCH_INGREDIENTS_ERROR });
+      }
+    });
   };
 };

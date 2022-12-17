@@ -18,7 +18,7 @@ export const BurgerIngredients = () => {
   const saucesTitleRef = useRef();
   const fillingsTitleRef = useRef();
 
-  const { ref: bunsRef, inView: bunsVisible } = useInView({ threshold: 1 });
+  const { ref: bunsRef, inView: bunsVisible } = useInView({ threshold: 0.8 });
   const { ref: saucesRef, inView: saucesVisible } = useInView({
     threshold: 0.8,
   });

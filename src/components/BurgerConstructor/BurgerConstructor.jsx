@@ -10,8 +10,8 @@ import { Modal } from "../Modal/Modal";
 import { OrderDetails } from "../OrderDetails/OrderDetails";
 import { createOrder } from "../../services/actions/order";
 import {
-  ADD_BUN_TO_CONSTRUCTOR,
-  ADD_MAIN_TO_CONSTRUCTOR,
+  addBunFromIngredientToConstructor,
+  addMainFromIngredientsToConstructor,
   DELETE_BUN_FROM_CONSTRUCTOR,
   DELETE_MAIN_FROM_CONSTRUCTOR,
   SET_NEW_ORDER_OF_MAINS,
@@ -31,10 +31,10 @@ export const BurgerConstructor = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const dispatch = useDispatch();
   const { mains, buns } = useSelector((state) => state.constructorState);
+  const hasIngridientsInOrder = mains.length && buns.length;
   const bunSelected = buns[0];
   const allIngredients = [...buns, ...mains];
   const totalPrice = allIngredients.reduce((acc, item) => acc + item.price, 0);
-  const idsForOrder = prepareIdsForOrder(allIngredients);
 
   const moveCard = (dragIndex, hoverIndex) => {
     const dragItem = mains[dragIndex];
@@ -57,7 +57,7 @@ export const BurgerConstructor = () => {
   const onDropHandler = (ingredient) => {
     if (ingredient.type === "bun") {
       if (!buns.length) {
-        dispatch({ type: ADD_BUN_TO_CONSTRUCTOR, payload: ingredient });
+        dispatch(addBunFromIngredientToConstructor(ingredient));
         dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
         return;
       }
@@ -67,16 +67,13 @@ export const BurgerConstructor = () => {
       if (buns.length === 2 && ingredient._id !== bunSelected._id) {
         dispatch({ type: DELETE_BUN_FROM_CONSTRUCTOR });
         dispatch({ type: DECREASE_INGREDIENT_COUNT, payload: bunSelected });
-        dispatch({ type: ADD_BUN_TO_CONSTRUCTOR, payload: ingredient });
+        dispatch(addBunFromIngredientToConstructor(ingredient));
         dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
         return;
       }
     }
 
-    dispatch({
-      type: ADD_MAIN_TO_CONSTRUCTOR,
-      payload: ingredient,
-    });
+    dispatch(addMainFromIngredientsToConstructor(ingredient));
     dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
   };
 
@@ -92,8 +89,12 @@ export const BurgerConstructor = () => {
   };
 
   const handleCreateOrder = () => {
-    dispatch(createOrder(idsForOrder));
-    setTimeout(openOrderModal(), 3000);
+    if (hasIngridientsInOrder) {
+      const idsForOrder = prepareIdsForOrder(allIngredients);
+      dispatch(createOrder(idsForOrder));
+      openOrderModal();
+    }
+    return;
   };
 
   const openOrderModal = () => {
@@ -149,6 +150,7 @@ export const BurgerConstructor = () => {
             type="primary"
             size="large"
             onClick={handleCreateOrder}
+            disabled={!hasIngridientsInOrder}
           >
             Оформить заказ
           </Button>

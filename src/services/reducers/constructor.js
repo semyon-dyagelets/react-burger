@@ -1,4 +1,3 @@
-import { v4 as uuid } from "uuid";
 import {
   ADD_BUN_TO_CONSTRUCTOR,
   ADD_MAIN_TO_CONSTRUCTOR,
@@ -15,15 +14,9 @@ const initialState = {
 export const constructorReducer = (state = initialState, action) => {
   switch (action.type) {
     case ADD_BUN_TO_CONSTRUCTOR: {
-      const { payload } = action;
-      const { quantityInOrder, ...noQuantityElement } = payload;
-      const elementWithCustomId = {
-        ...noQuantityElement,
-        customId: uuid(),
-      };
       return {
         ...state,
-        buns: [...state.buns, elementWithCustomId, elementWithCustomId],
+        buns: [...state.buns, action.payload, action.payload],
       };
     }
     case DELETE_BUN_FROM_CONSTRUCTOR: {
@@ -33,15 +26,9 @@ export const constructorReducer = (state = initialState, action) => {
       };
     }
     case ADD_MAIN_TO_CONSTRUCTOR: {
-      const { payload } = action;
-      const { quantityInOrder, ...noQuantityElement } = payload;
-      const elementWithCustomId = {
-        ...noQuantityElement,
-        customId: uuid(),
-      };
       return {
         ...state,
-        mains: [...state.mains, elementWithCustomId],
+        mains: [...state.mains, action.payload],
       };
     }
     case DELETE_MAIN_FROM_CONSTRUCTOR: {

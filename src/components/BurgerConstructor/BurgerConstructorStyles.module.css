@@ -1,4 +1,7 @@
 .constructor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   max-width: 600px;
 }
 
