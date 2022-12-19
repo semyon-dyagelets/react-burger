@@ -1,8 +1,9 @@
-import { ingridientPropTypes } from "../../../utils/types";
+import { useSelector } from "react-redux";
 
 import IngredientDetailsStyles from "./IngredientDetailsStyles.module.css";
 
-export const IngredientDetails = ({ ingridient }) => {
+export const IngredientDetails = () => {
+  const { selectedIngridient } = useSelector((state) => state.detailsState);
   const {
     calories,
     carbohydrates,
@@ -10,7 +11,7 @@ export const IngredientDetails = ({ ingridient }) => {
     image_large: imageLarge,
     name,
     proteins,
-  } = ingridient;
+  } = selectedIngridient;
 
   return (
     <>
@@ -51,8 +52,4 @@ export const IngredientDetails = ({ ingridient }) => {
       </ul>
     </>
   );
-};
-
-IngredientDetails.propTypes = {
-  ingridient: ingridientPropTypes.isRequired,
 };

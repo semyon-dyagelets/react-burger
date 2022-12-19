@@ -1,5 +1,6 @@
 .header {
-  height: 40px;
+  background: #1c1c21;
+  max-width: 1920px;
 }
 
 .navigation {

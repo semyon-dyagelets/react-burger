@@ -1,15 +1,19 @@
 .constructor {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   max-width: 600px;
 }
 
 .elements,
-.elements__mainingridients {
+.elements__mainIngredients {
   display: flex;
   flex-direction: column;
   gap: 10px;
+  min-height: 50vh;
 }
 
-.elements__mainingridients {
+.elements__mainIngredients {
   max-height: 464px;
   overflow: auto;
 }

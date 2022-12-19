@@ -1,7 +1,12 @@
 .card {
+  position: relative;
   display: flex;
   flex-direction: column;
   width: 272px;
+}
+
+.card:hover {
+  cursor: pointer;
 }
 
 .card__price {

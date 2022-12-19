@@ -1,11 +1,13 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useSelector } from "react-redux";
 
 import OrderDetailsStyles from "./OrderDetailsStyles.module.css";
 
 export const OrderDetails = () => {
+  const { orderReceiptNumber } = useSelector((state) => state.orderState);
   return (
     <>
-      <span className="text text_type_digits-large">034536</span>
+      <span className="text text_type_digits-large">{orderReceiptNumber}</span>
       <p className="text text_type_main-medium mt-8">идентификатор заказа</p>
       <span className={`${OrderDetailsStyles.modal__approved} mt-15`}>
         <CheckMarkIcon type="primary" />
