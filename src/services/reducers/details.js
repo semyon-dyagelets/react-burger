@@ -4,7 +4,7 @@ import {
 } from "../actions/details";
 
 const initialState = {
-  selectedIngridient: {},
+  selectedIngridient: null,
 };
 
 export const detailsReducer = (state = initialState, action) => {
