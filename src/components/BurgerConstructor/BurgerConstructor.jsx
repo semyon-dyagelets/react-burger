@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
+import { useHistory } from "react-router-dom";
 import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Modal } from "../Modal/Modal";
-
 import { OrderDetails } from "../OrderDetails/OrderDetails";
 import { createOrder } from "../../services/actions/order";
 import {
@@ -16,21 +16,22 @@ import {
   DELETE_MAIN_FROM_CONSTRUCTOR,
   SET_NEW_ORDER_OF_MAINS,
 } from "../../services/actions/constructor";
-import { prepareIdsForOrder } from "../../utils/convertors";
+import { prepareIdsForOrder } from "../../utils/helpers";
 import {
   DECREASE_INGREDIENT_COUNT,
   INCREASE_INGREDIENT_COUNT,
 } from "../../services/actions/ingredients";
-
+import { BunConstructorElement } from "./BunConstructorElement/BunConstructorElement";
 import { MainConstructorElement } from "./MainConstructorElement/MainConstructorElement";
 
 import BurgerConstructorStyles from "./BurgerConstructorStyles.module.css";
-import { BunConstructorElement } from "./BunConstructorElement/BunConstructorElement";
 
 export const BurgerConstructor = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const dispatch = useDispatch();
+  const history = useHistory();
   const { mains, buns } = useSelector((state) => state.constructorState);
+  const { userAuthorised } = useSelector((state) => state.userState);
   const hasIngridientsInOrder = mains.length && buns.length;
   const bunSelected = buns[0];
   const allIngredients = [...buns, ...mains];
@@ -48,7 +49,7 @@ export const BurgerConstructor = () => {
   };
 
   const [, dropTarget] = useDrop({
-    accept: "ingridientToDrag",
+    accept: "ingredientToDrag",
     drop(ingredient) {
       onDropHandler(ingredient);
     },
@@ -89,6 +90,9 @@ export const BurgerConstructor = () => {
   };
 
   const handleCreateOrder = () => {
+    if (!userAuthorised) {
+      history.push("/login");
+    }
     if (hasIngridientsInOrder) {
       const idsForOrder = prepareIdsForOrder(allIngredients);
       dispatch(createOrder(idsForOrder));

@@ -1,5 +1,9 @@
+.modal__container {
+  text-align: center;
+}
+
 .modal__title {
-  align-self: flex-start;
+  align-self: center;
 }
 
 .modal__image {

@@ -19,9 +19,9 @@
   display: flex;
 }
 
-.navigation__item {
+.navigation__link {
   display: flex;
-  align-items: center;
+  gap: 8px;
 }
 
 .logo__container {
@@ -29,4 +29,12 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+}
+
+.text_active {
+  color: var(--text-primary-color);
+}
+
+.text_active > svg {
+  fill: currentColor;
 }

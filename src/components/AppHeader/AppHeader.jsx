@@ -4,6 +4,7 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { NavLink } from "react-router-dom";
 import AppHeaderStyles from "./AppHeader.module.css";
 
 export const AppHeader = () => {
@@ -12,33 +13,42 @@ export const AppHeader = () => {
       <nav className={AppHeaderStyles.navigation}>
         <ul className={AppHeaderStyles.navigation__list}>
           <div className={AppHeaderStyles.navigation__group}>
-            <li className={`${AppHeaderStyles.navigation__item} p-5`}>
-              <BurgerIcon type="primary" />
-              <a className="ml-2 text text_type_main-default" href="/">
-                Конструктор
-              </a>
-            </li>
-            <li className={`${AppHeaderStyles.navigation__item} p-5 ml-2`}>
-              <ListIcon type="secondary" />
-              <a
-                className="ml-2 text text_type_main-default text_color_inactive"
-                href="/"
+            <li className="p-5">
+              <NavLink
+                exact
+                className={`${AppHeaderStyles.navigation__link} ml-2 text_type_main-default text text_color_inactive`}
+                activeClassName={AppHeaderStyles.text_active}
+                to="/"
               >
+                <BurgerIcon type="secondary" />
+                Конструктор
+              </NavLink>
+            </li>
+            <li className="p-5 ml-2">
+              <NavLink
+                exact
+                className={`${AppHeaderStyles.navigation__link} ml-2 text_type_main-default text text_color_inactive`}
+                activeClassName={AppHeaderStyles.text_active}
+                to="/lenta"
+              >
+                <ListIcon type="secondary" />
                 Лента заказов
-              </a>
+              </NavLink>
             </li>
           </div>
           <li className={AppHeaderStyles.logo__container}>
             <Logo />
           </li>
-          <li className={`${AppHeaderStyles.navigation__item} p-5`}>
-            <ProfileIcon type="secondary" />
-            <a
-              className="ml-2 text text_type_main-default text_color_inactive"
-              href="/"
+          <li className="p-5">
+            <NavLink
+              exact
+              className={`${AppHeaderStyles.navigation__link} ml-2 text_type_main-default text text_color_inactive`}
+              activeClassName={AppHeaderStyles.text_active}
+              to="/profile"
             >
+              <ProfileIcon type="secondary" />
               Личный кабинет
-            </a>
+            </NavLink>
           </li>
         </ul>
       </nav>

@@ -1,9 +1,7 @@
-import { useSelector } from "react-redux";
-
+import { ingredientPropTypes } from "../../../utils/types";
 import IngredientDetailsStyles from "./IngredientDetailsStyles.module.css";
 
-export const IngredientDetails = () => {
-  const { selectedIngridient } = useSelector((state) => state.detailsState);
+export const IngredientDetails = ({ selectedIngredient }) => {
   const {
     calories,
     carbohydrates,
@@ -11,10 +9,10 @@ export const IngredientDetails = () => {
     image_large: imageLarge,
     name,
     proteins,
-  } = selectedIngridient;
+  } = selectedIngredient;
 
   return (
-    <>
+    <div className={IngredientDetailsStyles.modal__container}>
       <p
         className={`${IngredientDetailsStyles.modal__title} text text_type_main-large`}
       >
@@ -50,6 +48,10 @@ export const IngredientDetails = () => {
           <span className="text_type_digits-default">{carbohydrates}</span>
         </li>
       </ul>
-    </>
+    </div>
   );
+};
+
+IngredientDetails.propTypes = {
+  selectedIngredient: ingredientPropTypes.isRequired,
 };

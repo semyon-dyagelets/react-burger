@@ -6,10 +6,12 @@ import { Tabs } from "./Tabs/Tabs";
 import { Modal } from "../Modal/Modal";
 import { IngredientDetails } from "./IngredientDetails/IngredientDetails";
 
-import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients";
 import { OPEN_INGREDIENT_DETAILS } from "../../services/actions/details";
+
+import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
+import { Link } from "react-router-dom";
 
 export const BurgerIngredients = () => {
   const dispatch = useDispatch();
@@ -74,7 +76,7 @@ export const BurgerIngredients = () => {
           />
         </div>
         <div
-          className={`${BurgerIngredientsStyles.Ingredients__container} mt-10 custom-scroll`}
+          className={`${BurgerIngredientsStyles.ingredients__container} mt-10 custom-scroll`}
         >
           <h2 className="text text_type_main-medium" ref={bunsTitleRef}>
             Булки
@@ -84,11 +86,14 @@ export const BurgerIngredients = () => {
             ref={bunsRef}
           >
             {buns.map((item) => (
-              <IngredientCard
-                key={item._id}
-                ingredient={item}
-                onIngridientCardClick={() => handleIngridientClick(item)}
-              />
+              <li key={item._id}>
+                <Link to={{ pathname: `/ingredients/${item._id}` }}>
+                  <IngredientCard
+                    ingredient={item}
+                    onIngridientCardClick={() => handleIngridientClick(item)}
+                  />
+                </Link>
+              </li>
             ))}
           </ul>
           <h2 className="text text_type_main-medium" ref={saucesTitleRef}>
@@ -99,11 +104,14 @@ export const BurgerIngredients = () => {
             ref={saucesRef}
           >
             {sauces.map((item) => (
-              <IngredientCard
-                key={item._id}
-                ingredient={item}
-                onIngridientCardClick={() => handleIngridientClick(item)}
-              />
+              <li key={item._id}>
+                <Link to={{ pathname: `/ingredients/${item._id}` }}>
+                  <IngredientCard
+                    ingredient={item}
+                    onIngridientCardClick={() => handleIngridientClick(item)}
+                  />
+                </Link>
+              </li>
             ))}
           </ul>
           <h2 className="text text_type_main-medium">Начинки</h2>
@@ -112,11 +120,14 @@ export const BurgerIngredients = () => {
             className={`${BurgerIngredientsStyles.categories} pt-6 pb-10 pl-4`}
           >
             {mains.map((item) => (
-              <IngredientCard
-                key={item._id}
-                ingredient={item}
-                onIngridientCardClick={() => handleIngridientClick(item)}
-              />
+              <li key={item._id}>
+                <Link to={{ pathname: `/ingredients/${item._id}` }}>
+                  <IngredientCard
+                    ingredient={item}
+                    onIngridientCardClick={() => handleIngridientClick(item)}
+                  />
+                </Link>
+              </li>
             ))}
           </ul>
         </div>
@@ -124,7 +135,7 @@ export const BurgerIngredients = () => {
       {isShowIngridientModal && (
         <Modal
           onClose={closeIngridientModal}
-          className={`${BurgerIngredientsStyles.modal__content_ingridient} pt-10 pr-10 pb-15 pl-10`}
+          className={`${BurgerIngredientsStyles.modal__content_ingredient} pt-10 pr-10 pb-15 pl-10`}
           buttonCloseClassName={`${BurgerIngredientsStyles.modal__close_ingridient}`}
         >
           <IngredientDetails />
