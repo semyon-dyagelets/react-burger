@@ -2,7 +2,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { IngredientDetails } from "../../components/BurgerIngredients/IngredientDetails/IngredientDetails";
 import { Modal } from "../../components/Modal/Modal";
-import { getIngredients } from "../../services/api";
+import { getIngredients } from "../../utils/api";
 
 import IngredientPageStyles from "./IngredientPageStyles.module.css";
 

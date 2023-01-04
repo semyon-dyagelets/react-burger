@@ -1,6 +1,10 @@
-import { AUTH_URL, BASE_URL } from "../utils/constants";
+import { AUTH_URL, BASE_URL } from "./constants";
 
-import { refreshTokenFromCookie } from "../utils/helpers";
+import {
+  accessTokenFromCookie,
+  refreshTokenFromCookie,
+  setCookie,
+} from "./helpers";
 
 export async function getIngredients() {
   const response = await fetch(`${BASE_URL}/ingredients`);
@@ -10,40 +14,6 @@ export async function getIngredients() {
   }
   const { data } = await response.json();
   return data;
-}
-
-export async function fetchUserData(accessToken) {
-  const response = await fetch(`${AUTH_URL}/user`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-  });
-  const result = await response.json();
-  return result;
-}
-
-export async function updateUserData(
-  accessToken,
-  updatedName,
-  updatedEmail,
-  updatedPassword
-) {
-  const response = await fetch(`${AUTH_URL}/user`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${accessToken}`,
-    },
-    body: JSON.stringify({
-      name: updatedName,
-      email: updatedEmail,
-      password: updatedPassword,
-    }),
-  });
-  const result = await response.json();
-  return result;
 }
 
 export async function sendOrder(orderData) {
@@ -140,3 +110,55 @@ export async function getNewToken() {
   const result = await response.json();
   return result;
 }
+
+export const fetchWithRefresh = async (url, options) => {
+  const response = await fetch(url, options);
+  if (response) {
+    const result = await response.json();
+    if (
+      !result.success &&
+      (result.message === "jwt expired" || "Token is invalid")
+    ) {
+      const refreshData = await getNewToken();
+      if (!refreshData.success) {
+        return Promise.reject(refreshData);
+      }
+
+      const { accessToken, refreshToken } = refreshData;
+      const extractedAccessToken = accessToken.split("Bearer ")[1];
+      setCookie("accessToken", extractedAccessToken);
+      setCookie("refreshToken", refreshToken);
+      options.headers.authorization = `Bearer ${accessTokenFromCookie}`;
+      const response = await fetch(url, options);
+      const result = await response.json();
+      return result;
+    }
+    return result;
+  } else {
+    return Promise.reject();
+  }
+};
+
+export const fetchUserData = () =>
+  fetchWithRefresh(`${AUTH_URL}/user`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessTokenFromCookie}`,
+    },
+  });
+
+export const updateUserData = (updatedName, updatedEmail, updatedPassword) => {
+  fetchWithRefresh(`${AUTH_URL}/user`, {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${accessTokenFromCookie}`,
+    },
+    body: JSON.stringify({
+      name: updatedName,
+      email: updatedEmail,
+      password: updatedPassword,
+    }),
+  });
+};

@@ -1,9 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import {
   NavLink,
   BrowserRouter as Router,
   useHistory,
-  useLocation,
   Switch,
   Route,
 } from "react-router-dom";
@@ -14,26 +13,16 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ProfileStyles from "./ProfileStyles.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getUserData,
-  logoutUser,
-  updateUser,
-} from "../../services/actions/user";
+import { logoutUser, updateUser } from "../../services/actions/user";
 import { OrdersPage } from "../OrdersPage/Orders";
+
+import ProfileStyles from "./ProfileStyles.module.css";
 
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const location = useLocation();
-  const { userName, userEmail, userAccessToken } = useSelector(
-    (state) => state.userState
-  );
-
-  useEffect(() => {
-    dispatch(getUserData(userAccessToken));
-  }, [dispatch, userAccessToken]);
+  const { userName, userEmail } = useSelector((state) => state.userState);
 
   const [emailInputValue, setEmailInputValue] = useState(userEmail);
   const [passwordInputValue, setPasswordInputValue] = useState("");
@@ -53,11 +42,14 @@ export const ProfilePage = () => {
     setNameInputValue(event.target.value);
   };
 
-  const handleLogout = (event) => {
-    event.preventDefault();
-    dispatch(logoutUser());
-    history.push(location.state?.from || "/login");
-  };
+  const handleLogout = useCallback(
+    (event) => {
+      event.preventDefault();
+      dispatch(logoutUser());
+      history.push("/login");
+    },
+    [dispatch, history]
+  );
 
   const handleClickCancel = (event) => {
     event.preventDefault();
@@ -68,14 +60,7 @@ export const ProfilePage = () => {
 
   const handleSaveUpdatedInfo = (event) => {
     event.preventDefault();
-    dispatch(
-      updateUser(
-        userAccessToken,
-        nameInputValue,
-        emailInputValue,
-        passwordInputValue
-      )
-    );
+    dispatch(updateUser(nameInputValue, emailInputValue, passwordInputValue));
   };
 
   return (

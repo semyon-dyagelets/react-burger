@@ -5,21 +5,15 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { registerUser } from "../../services/actions/user";
-import { accessTokenFromCookie } from "../../utils/helpers";
 
 import RegisterStyles from "./RegisterStyles.module.css";
 
 export const RegisterPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-
-  const { userAuthorised } = useSelector((state) => state.userState);
-  if (userAuthorised || accessTokenFromCookie) {
-    history.push("/");
-  }
 
   const [emailInputValue, setEmailInputValue] = useState("");
   const [passwordInputValue, setPasswordInputValue] = useState("");
@@ -39,7 +33,9 @@ export const RegisterPage = () => {
 
   const handleRegisterClick = (event) => {
     event.preventDefault();
-    dispatch(registerUser(emailInputValue, passwordInputValue, nameInputValue));
+    dispatch(
+      registerUser(emailInputValue, passwordInputValue, nameInputValue, history)
+    );
   };
 
   return (

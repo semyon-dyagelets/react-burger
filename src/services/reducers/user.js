@@ -1,4 +1,5 @@
 import {
+  CHECK_AUTHORISATION,
   FORGOT_PASSWORD_FAILED,
   FORGOT_PASSWORD_LOADING,
   FORGOT_PASSWORD_SUCCESS,
@@ -11,9 +12,6 @@ import {
   LOGOUT_USER_FAILED,
   LOGOUT_USER_LOADING,
   LOGOUT_USER_SUCCESS,
-  REFRESH_TOKEN_FAILED,
-  REFRESH_TOKEN_LOADING,
-  REFRESH_TOKEN_SUCCESS,
   REGISTER_USER_FAILED,
   REGISTER_USER_LOADING,
   REGISTER_USER_SUCCESS,
@@ -28,14 +26,13 @@ import {
 const initialState = {
   authorisationFailed: false,
   authorisationProcessing: false,
+  authorisationChecked: false,
   fetchingUserDataProcessing: false,
   fetchingUserDataFailed: false,
   registrationFailed: false,
   registrationProcessing: false,
   logoutFailed: false,
   logoutProcessing: false,
-  updatingAccessTokenFailed: false,
-  updatingAccessTokenProcessing: false,
   forgotPasswordProcessing: false,
   forgotPasswordSuccess: false,
   forgotPasswordFailed: false,
@@ -52,6 +49,12 @@ const initialState = {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case CHECK_AUTHORISATION: {
+      return {
+        ...state,
+        authorisationChecked: true,
+      };
+    }
     case GET_USER_LOADING: {
       return {
         ...state,
@@ -63,6 +66,7 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         fetchingUserDataProcessing: false,
         fetchingUserDataFailed: false,
+        userAuthorised: true,
         userEmail: action.userEmail,
         userName: action.userName,
       };
@@ -133,6 +137,7 @@ export const userReducer = (state = initialState, action) => {
         userEmail: "",
         userName: "",
         userRefreshToken: "",
+        authorisationChecked: false,
       };
     }
     case LOGOUT_USER_FAILED: {
@@ -161,28 +166,6 @@ export const userReducer = (state = initialState, action) => {
       return {
         ...state,
         updatingInfoFailed: true,
-      };
-    }
-    case REFRESH_TOKEN_LOADING: {
-      return {
-        ...state,
-        updatingInfoProcessing: true,
-      };
-    }
-    case REFRESH_TOKEN_SUCCESS: {
-      return {
-        ...state,
-        updatingAccessTokenProcessing: false,
-        updatingAccessTokenFailed: false,
-        userAccessToken: action.accessToken,
-        userRefreshToken: action.refreshToken,
-      };
-    }
-    case REFRESH_TOKEN_FAILED: {
-      return {
-        ...state,
-        updatingAccessTokenProcessing: false,
-        updatingAccessTokenFailed: false,
       };
     }
     case FORGOT_PASSWORD_LOADING: {

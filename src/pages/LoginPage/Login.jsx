@@ -3,9 +3,9 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
 import { authoriseUser } from "../../services/actions/user";
 
 import LoginStyles from "./LoginStyles.module.css";
@@ -14,10 +14,6 @@ export const LoginPage = () => {
   const [emailInputValue, setEmailInputValue] = useState("");
   const [passwordInputValue, setPasswordInputValue] = useState("");
   const dispatch = useDispatch();
-  const location = useLocation();
-  const history = useHistory();
-
-  const { userAuthorised } = useSelector((state) => state.userState);
 
   const changeEmailInput = (event) => {
     setEmailInputValue(event.target.value);
@@ -36,12 +32,6 @@ export const LoginPage = () => {
     },
     [dispatch, emailInputValue, passwordInputValue]
   );
-
-  useEffect(() => {
-    if (userAuthorised) {
-      history.push(location.state?.from || "/");
-    }
-  });
 
   return (
     <div className={LoginStyles.container}>

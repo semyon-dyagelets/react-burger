@@ -29,7 +29,7 @@ export const AppHeader = () => {
                 exact
                 className={`${AppHeaderStyles.navigation__link} ml-2 text_type_main-default text text_color_inactive`}
                 activeClassName={AppHeaderStyles.text_active}
-                to="/lenta"
+                to="/feed"
               >
                 <ListIcon type="secondary" />
                 Лента заказов

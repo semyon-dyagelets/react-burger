@@ -26,32 +26,36 @@ const App = () => {
                 <MainPage />
               </Route>
 
-              <Route exact path="/login">
+              <ProtectedRoute exact path="/login" unauthorisedUserOnly>
                 <LoginPage />
-              </Route>
+              </ProtectedRoute>
 
-              <Route exact path="/register">
+              <ProtectedRoute exact path="/register" unauthorisedUserOnly>
                 <RegisterPage />
-              </Route>
+              </ProtectedRoute>
 
-              <Route exact path="/forgot-password">
+              <ProtectedRoute
+                exact
+                path="/forgot-password"
+                unauthorisedUserOnly
+              >
                 <ForgotPasswordPage />
-              </Route>
+              </ProtectedRoute>
 
-              <Route exact path="/reset-password">
+              <ProtectedRoute exact path="/reset-password" unauthorisedUserOnly>
                 <ResetPasswordPage />
-              </Route>
+              </ProtectedRoute>
 
-              <ProtectedRoute exact path="/profile">
+              <ProtectedRoute exact path="/profile" >
                 <ProfilePage />
               </ProtectedRoute>
 
-              <ProtectedRoute exact path="/lenta">
-                <LentaPage/>
-              </ProtectedRoute>
+              <Route exact path="/feed">
+                <LentaPage />
+              </Route>
 
               <Route exact path="/ingredients/:ingredientId">
-                <IngredientPage/>
+                <IngredientPage />
               </Route>
 
               <Route path="*">
