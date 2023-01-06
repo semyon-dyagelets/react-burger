@@ -1,14 +1,15 @@
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ResetPasswordStyles from "./ResetPasswordStyles.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { restoreWithNewPassword } from "../../services/actions/user";
+
+import ResetPasswordStyles from "./ResetPasswordStyles.module.css";
 
 export const ResetPasswordPage = () => {
   const [passwordValue, setPasswordValue] = useState("");

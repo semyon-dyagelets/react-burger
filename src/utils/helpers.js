@@ -27,10 +27,6 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export const refreshTokenFromCookie = getCookie("refreshToken");
-
-export const accessTokenFromCookie = getCookie("accessToken");
-
 export function setCookie(name, value, props) {
   props = props || {};
   let exp = props.expires;

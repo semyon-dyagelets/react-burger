@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Route, useHistory, useLocation } from "react-router-dom";
+import { Redirect, Route, useLocation } from "react-router-dom";
 
 import { checkToken } from "../../services/actions/user";
 import PropTypes from "prop-types";
@@ -15,7 +15,6 @@ export const ProtectedRoute = ({
   );
   const dispatch = useDispatch();
   const location = useLocation();
-  const history = useHistory();
 
   useEffect(() => {
     dispatch(checkToken());
@@ -26,7 +25,14 @@ export const ProtectedRoute = ({
   }
 
   if (unauthorisedUserOnly && userAuthorised) {
-    history.push(location.state?.from || "/");
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+          state: { from: location },
+        }}
+      />
+    );
   }
 
   if (!unauthorisedUserOnly && !userAuthorised) {

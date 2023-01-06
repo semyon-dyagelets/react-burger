@@ -1,10 +1,6 @@
 import { AUTH_URL, BASE_URL } from "./constants";
 
-import {
-  accessTokenFromCookie,
-  refreshTokenFromCookie,
-  setCookie,
-} from "./helpers";
+import { getCookie, setCookie } from "./helpers";
 
 export async function getIngredients() {
   const response = await fetch(`${BASE_URL}/ingredients`);
@@ -90,7 +86,7 @@ export async function signOut() {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      token: refreshTokenFromCookie,
+      token: getCookie("refreshToken"),
     }),
   });
   const result = await response.json();
@@ -98,13 +94,14 @@ export async function signOut() {
 }
 
 export async function getNewToken() {
+  console.log();
   const response = await fetch(`${AUTH_URL}/token`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      token: refreshTokenFromCookie,
+      token: getCookie("refreshToken"),
     }),
   });
   const result = await response.json();
@@ -123,12 +120,11 @@ export const fetchWithRefresh = async (url, options) => {
       if (!refreshData.success) {
         return Promise.reject(refreshData);
       }
-
       const { accessToken, refreshToken } = refreshData;
       const extractedAccessToken = accessToken.split("Bearer ")[1];
       setCookie("accessToken", extractedAccessToken);
       setCookie("refreshToken", refreshToken);
-      options.headers.authorization = `Bearer ${accessTokenFromCookie}`;
+      options.headers.authorization = accessToken;
       const response = await fetch(url, options);
       const result = await response.json();
       return result;
@@ -144,7 +140,7 @@ export const fetchUserData = () =>
     method: "GET",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessTokenFromCookie}`,
+      authorization: `Bearer ${getCookie("accessToken")}`,
     },
   });
 
@@ -153,7 +149,7 @@ export const updateUserData = (updatedName, updatedEmail, updatedPassword) => {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${accessTokenFromCookie}`,
+      authorization: `Bearer ${getCookie("accessToken")}`,
     },
     body: JSON.stringify({
       name: updatedName,

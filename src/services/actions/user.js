@@ -1,8 +1,4 @@
-import {
-  accessTokenFromCookie,
-  deleteCookie,
-  setCookie,
-} from "../../utils/helpers";
+import { deleteCookie, getCookie, setCookie } from "../../utils/helpers";
 import {
   restorePassword,
   saveNewPassword,
@@ -44,7 +40,7 @@ export const RESTORE_PASSWORD_FAILED = "RESTORE_PASSWORD_FAILED";
 export const CHECK_AUTHORISATION = "CHECK_AUTHORISATION";
 
 export const checkToken = () => (dispatch) => {
-  if (accessTokenFromCookie) {
+  if (getCookie("accessToken")) {
     dispatch(getUserData());
     dispatch({ type: CHECK_AUTHORISATION });
   } else {

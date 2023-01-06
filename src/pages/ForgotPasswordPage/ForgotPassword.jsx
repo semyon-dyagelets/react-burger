@@ -1,13 +1,14 @@
 import { useCallback, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import ForgotPasswordStyles from "./ForgotPasswordStyles.module.css";
 import { requestForNewPassword } from "../../services/actions/user";
-import { useDispatch } from "react-redux";
+
+import ForgotPasswordStyles from "./ForgotPasswordStyles.module.css";
 
 export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();

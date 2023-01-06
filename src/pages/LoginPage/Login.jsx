@@ -1,11 +1,13 @@
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+
 import {
   Button,
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link } from "react-router-dom";
+
 import { authoriseUser } from "../../services/actions/user";
 
 import LoginStyles from "./LoginStyles.module.css";
