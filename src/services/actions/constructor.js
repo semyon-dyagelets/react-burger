@@ -1,4 +1,4 @@
-import { omitQuantityAddCustomId } from "../../utils/convertors";
+import { omitQuantityAddCustomId } from "../../utils/helpers";
 
 export const ADD_BUN_TO_CONSTRUCTOR = "ADD_BUN_TO_CONSTRUCTOR";
 export const DELETE_BUN_FROM_CONSTRUCTOR = "DELETE_BUN_FROM_CONSTRUCTOR";
