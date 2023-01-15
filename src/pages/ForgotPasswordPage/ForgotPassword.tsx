@@ -14,13 +14,14 @@ export const ForgotPasswordPage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
   const [emailValue, setEmailValue] = useState("");
-  const onChange = (e) => {
-    setEmailValue(e.target.value);
+  const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setEmailValue(event.target.value);
   };
 
   const handleResetClick = useCallback(
-    (event) => {
+    (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      // @ts-ignore
       dispatch(requestForNewPassword(emailValue, history));
       setEmailValue("");
     },
@@ -34,7 +35,7 @@ export const ForgotPasswordPage = () => {
       >
         Восстановление пароля
       </h2>
-      <form className={ForgotPasswordStyles.form}>
+      <form className={ForgotPasswordStyles.form} onSubmit={handleResetClick}>
         <EmailInput
           value={emailValue}
           onChange={onChange}
@@ -46,7 +47,6 @@ export const ForgotPasswordPage = () => {
           type="primary"
           size="medium"
           extraClass="mt-6"
-          onClick={handleResetClick}
           disabled={!emailValue}
         >
           Восстановить

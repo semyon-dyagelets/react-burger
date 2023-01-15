@@ -1,7 +1,13 @@
-import { ingredientPropTypes } from "../../../utils/types";
+import { IngredientProps } from "../../../utils/types";
 import IngredientDetailsStyles from "./IngredientDetailsStyles.module.css";
 
-export const IngredientDetails = ({ selectedIngredient }) => {
+interface IngredientDetailsProps {
+  selectedIngredient: IngredientProps;
+}
+
+export const IngredientDetails = ({
+  selectedIngredient,
+}: IngredientDetailsProps) => {
   const {
     calories,
     carbohydrates,
@@ -50,8 +56,4 @@ export const IngredientDetails = ({ selectedIngredient }) => {
       </ul>
     </div>
   );
-};
-
-IngredientDetails.propTypes = {
-  selectedIngredient: ingredientPropTypes.isRequired,
 };

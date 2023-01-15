@@ -22,7 +22,7 @@ import ProfileStyles from "./ProfileStyles.module.css";
 export const ProfilePage = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const { userName, userEmail } = useSelector((state) => state.userState);
+  const { userName, userEmail } = useSelector((state: any) => state.userState);
 
   const [emailInputValue, setEmailInputValue] = useState(userEmail);
   const [passwordInputValue, setPasswordInputValue] = useState("");
@@ -30,36 +30,36 @@ export const ProfilePage = () => {
   const emptyFields =
     !nameInputValue || !emailInputValue || !passwordInputValue;
 
-  const changeEmailInput = (event) => {
+  const changeEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailInputValue(event.target.value);
   };
 
-  const changePasswordInput = (event) => {
+  const changePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInputValue(event.target.value);
   };
 
-  const changeNameInput = (event) => {
+  const changeNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameInputValue(event.target.value);
   };
 
   const handleLogout = useCallback(
-    (event) => {
-      event.preventDefault();
+    () => {
+      // @ts-ignore
       dispatch(logoutUser());
       history.push("/login");
     },
     [dispatch, history]
   );
 
-  const handleClickCancel = (event) => {
-    event.preventDefault();
+  const handleClickCancel = () => {
     setEmailInputValue(userEmail);
     setPasswordInputValue("");
     setNameInputValue(userName);
   };
 
-  const handleSaveUpdatedInfo = (event) => {
+  const handleSaveUpdatedInfo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // @ts-ignore
     dispatch(updateUser(nameInputValue, emailInputValue, passwordInputValue));
   };
 

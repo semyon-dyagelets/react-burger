@@ -1,22 +1,28 @@
-import { useEffect } from "react";
+import { ReactNode, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect, Route, useLocation } from "react-router-dom";
+import { Redirect, Route, useLocation, RouteProps } from "react-router-dom";
 
 import { checkToken } from "../../services/actions/user";
-import PropTypes from "prop-types";
+
+interface ProtectedRouteProps extends RouteProps {
+  children: ReactNode;
+  rest?: any;
+  unauthorisedUserOnly?: boolean;
+};
 
 export const ProtectedRoute = ({
   unauthorisedUserOnly = false,
   children,
   ...rest
-}) => {
+}: ProtectedRouteProps) => {
   const { userAuthorised, authorisationChecked } = useSelector(
-    (state) => state.userState
+    (state: any) => state.userState
   );
   const dispatch = useDispatch();
   const location = useLocation();
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(checkToken());
   }, [dispatch]);
 
@@ -46,11 +52,5 @@ export const ProtectedRoute = ({
     );
   }
 
-  return <Route {...rest} render={({ location }) => children} />;
-};
-
-ProtectedRoute.propTypes = {
-  children: PropTypes.node.isRequired,
-  rest: PropTypes.any,
-  unauthorisedUserOnly: PropTypes.bool,
+  return <Route {...rest}>{children}</Route>;
 };

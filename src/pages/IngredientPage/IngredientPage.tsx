@@ -3,22 +3,23 @@ import { useHistory, useParams } from "react-router-dom";
 import { IngredientDetails } from "../../components/BurgerIngredients/IngredientDetails/IngredientDetails";
 import { Modal } from "../../components/Modal/Modal";
 import { getIngredients } from "../../utils/api";
+import { IngredientProps } from "../../utils/types";
 
 import IngredientPageStyles from "./IngredientPageStyles.module.css";
 
 export const IngredientPage = () => {
-  const [ingredientToShow, setIngredientToShow] = useState(null);
-  const { ingredientId } = useParams();
+  const [ingredientToShow, setIngredientToShow] = useState<IngredientProps>();
+  const { ingredientId } = useParams<{ ingredientId: string }>();
 
   const history = useHistory();
 
-  const handleCloseModal = (event) => {
+  const handleCloseModal = () => {
     history.push("/");
   };
 
   const loadIngredientInfo = useCallback(() => {
-    getIngredients().then((ingredients) => {
-      setIngredientToShow(ingredients.find(({ _id }) => _id === ingredientId));
+    getIngredients().then((ingredients: IngredientProps[]) => {
+        setIngredientToShow(ingredients.find(({ _id }) => _id === ingredientId));
     });
   }, [ingredientId]);
 

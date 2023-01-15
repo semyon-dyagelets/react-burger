@@ -46,7 +46,7 @@ const App = () => {
                 <ResetPasswordPage />
               </ProtectedRoute>
 
-              <ProtectedRoute exact path="/profile" >
+              <ProtectedRoute exact path="/profile">
                 <ProfilePage />
               </ProtectedRoute>
 

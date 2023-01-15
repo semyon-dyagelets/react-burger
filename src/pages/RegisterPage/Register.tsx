@@ -1,12 +1,13 @@
+import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
 import {
   Button,
   EmailInput,
   Input,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { Link, useHistory } from "react-router-dom";
+
 import { registerUser } from "../../services/actions/user";
 
 import RegisterStyles from "./RegisterStyles.module.css";
@@ -19,22 +20,22 @@ export const RegisterPage = () => {
   const [passwordInputValue, setPasswordInputValue] = useState("");
   const [nameInputValue, setNameInputValue] = useState("");
 
-  const changeEmailInput = (event) => {
+  const changeEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailInputValue(event.target.value);
   };
 
-  const changePasswordInput = (event) => {
+  const changePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInputValue(event.target.value);
   };
 
-  const changeNameInput = (event) => {
+  const changeNameInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setNameInputValue(event.target.value);
   };
 
-  const handleRegisterClick = (event) => {
+  const handleRegisterClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(
-      registerUser(emailInputValue, passwordInputValue, nameInputValue, history)
+    // @ts-ignore
+    dispatch(registerUser(emailInputValue, passwordInputValue, nameInputValue, history)
     );
   };
 
@@ -43,7 +44,7 @@ export const RegisterPage = () => {
       <h2 className={`${RegisterStyles.title} text text_type_main-medium`}>
         Регистрация
       </h2>
-      <form className={RegisterStyles.form}>
+      <form className={RegisterStyles.form} onSubmit={handleRegisterClick}>
         <Input
           type="text"
           value={nameInputValue}
@@ -69,7 +70,6 @@ export const RegisterPage = () => {
           size="medium"
           extraClass="mt-6"
           disabled={!nameInputValue || !emailInputValue || !passwordInputValue}
-          onClick={handleRegisterClick}
         >
           Зарегистрироваться
         </Button>

@@ -5,10 +5,17 @@ import {
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../../utils/types";
+import { IngredientProps } from "../../../utils/types";
 
 import MainConstructorElementStyles from "./MainConstructorElementStyles.module.css";
+
+interface MainConstructorElementProps {
+  index: number;
+  element: IngredientProps;
+  typeOfElement: "top" | "bottom" | undefined;
+  onCloseClick: () => void;
+  moveCard: (dragIndex: number, hoverIndex: number) => void;
+}
 
 export const MainConstructorElement = ({
   index,
@@ -16,13 +23,13 @@ export const MainConstructorElement = ({
   typeOfElement,
   onCloseClick,
   moveCard,
-}) => {
+}: MainConstructorElementProps) => {
   const { name, price, image } = element;
   const ref = useRef(null);
 
   const [, drop] = useDrop({
     accept: "elementToDrag",
-    hover(item, monitor) {
+    hover(item: any, monitor) {
       if (!ref.current) {
         return;
       }
@@ -31,10 +38,12 @@ export const MainConstructorElement = ({
       if (dragIndex === hoverIndex) {
         return;
       }
+      // @ts-ignore
       const hoverBoundingRect = ref.current?.getBoundingClientRect();
       const hoverMiddleY =
         (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
       const clientOffset = monitor.getClientOffset();
+      // @ts-ignore
       const hoverClientY = clientOffset.y - hoverBoundingRect.top;
       if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
         return;
@@ -66,12 +75,4 @@ export const MainConstructorElement = ({
       />
     </li>
   );
-};
-
-MainConstructorElement.propTypes = {
-  index: PropTypes.number.isRequired,
-  element: ingredientPropTypes.isRequired,
-  typeOfElement: PropTypes.string.isRequired,
-  onCloseClick: PropTypes.func.isRequired,
-  moveCard: PropTypes.func.isRequired,
 };

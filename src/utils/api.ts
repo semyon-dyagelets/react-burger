@@ -12,7 +12,7 @@ export async function getIngredients() {
   return data;
 }
 
-export async function sendOrder(orderData) {
+export async function sendOrder(orderData: string[]) {
   const response = await fetch(`${BASE_URL}/orders`, {
     method: "POST",
     headers: {
@@ -24,7 +24,7 @@ export async function sendOrder(orderData) {
   return result;
 }
 
-export async function restorePassword(userEmail) {
+export async function restorePassword(userEmail: string) {
   const response = await fetch(`${BASE_URL}/password-reset`, {
     method: "POST",
     headers: {
@@ -36,7 +36,7 @@ export async function restorePassword(userEmail) {
   return result;
 }
 
-export async function saveNewPassword(newPassword, userToken) {
+export async function saveNewPassword(newPassword: string, userToken: string) {
   const response = await fetch(`${BASE_URL}/password-reset/reset`, {
     method: "POST",
     headers: {
@@ -48,7 +48,7 @@ export async function saveNewPassword(newPassword, userToken) {
   return result;
 }
 
-export async function signUp(email, password, name) {
+export async function signUp(email: string, password: string, name: string) {
   const response = await fetch(`${AUTH_URL}/register`, {
     method: "POST",
     headers: {
@@ -64,7 +64,7 @@ export async function signUp(email, password, name) {
   return result;
 }
 
-export async function signIn(userEmail, userPassword) {
+export async function signIn(userEmail: string, userPassword: string) {
   const response = await fetch(`${AUTH_URL}/login`, {
     method: "POST",
     headers: {
@@ -108,7 +108,7 @@ export async function getNewToken() {
   return result;
 }
 
-export const fetchWithRefresh = async (url, options) => {
+export const fetchWithRefresh = async (url: string, options: RequestInit) => {
   const response = await fetch(url, options);
   if (response) {
     const result = await response.json();
@@ -124,6 +124,7 @@ export const fetchWithRefresh = async (url, options) => {
       const extractedAccessToken = accessToken.split("Bearer ")[1];
       setCookie("accessToken", extractedAccessToken);
       setCookie("refreshToken", refreshToken);
+      // @ts-ignore
       options.headers.authorization = accessToken;
       const response = await fetch(url, options);
       const result = await response.json();
@@ -144,7 +145,11 @@ export const fetchUserData = () =>
     },
   });
 
-export const updateUserData = (updatedName, updatedEmail, updatedPassword) => {
+export const updateUserData = (
+  updatedName: string,
+  updatedEmail: string,
+  updatedPassword: string
+) => {
   fetchWithRefresh(`${AUTH_URL}/user`, {
     method: "PATCH",
     headers: {

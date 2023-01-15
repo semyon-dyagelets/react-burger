@@ -1,13 +1,14 @@
 import { v4 as uuid } from "uuid";
+import { IngredientProps } from "./types";
 
-export const prepareIdsForOrder = (elements) => {
+export const prepareIdsForOrder = (elements: IngredientProps[]) => {
   const elementsIds = elements.map((element) => element._id);
-  elementsIds.push(elementsIds.shift());
-  const resultToSend = { ingredients: elementsIds };
-  return resultToSend;
+    elementsIds.push(elementsIds.shift() as string);
+    const resultToSend = { ingredients: elementsIds };
+    return resultToSend;
 };
 
-export const omitQuantityAddCustomId = (initialElement) => {
+export const omitQuantityAddCustomId = (initialElement: IngredientProps) => {
   const { quantityInOrder, ...noQuantityElement } = initialElement;
   const elementWithCustomIdandNoQuantity = {
     ...noQuantityElement,
@@ -16,7 +17,7 @@ export const omitQuantityAddCustomId = (initialElement) => {
   return elementWithCustomIdandNoQuantity;
 };
 
-export function getCookie(name) {
+export function getCookie(name: string) {
   const matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
@@ -27,7 +28,11 @@ export function getCookie(name) {
   return matches ? decodeURIComponent(matches[1]) : undefined;
 }
 
-export function setCookie(name, value, props) {
+export function setCookie(
+  name: string,
+  value: string | number | boolean,
+  props?: any
+) {
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {
@@ -50,6 +55,8 @@ export function setCookie(name, value, props) {
   document.cookie = updatedCookie;
 }
 
-export function deleteCookie(name) {
-  setCookie(name, null, { expires: -1 });
+export function deleteCookie(name: string) {
+  const date = new Date();
+  date.setTime(date.getTime() + -1 * 24 * 60 * 60 * 1000);
+  document.cookie = name + "=; expires=" + date.toUTCString() + "; path=/";
 }

@@ -1,9 +1,15 @@
-import React from "react";
-import PropTypes from "prop-types";
-
 import TabsStyles from "./TabsStyles.module.css";
 
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
+
+interface TabsProps {
+  bunsShown: boolean;
+  fillingsShown: boolean;
+  saucesShown: boolean;
+  onBunsClick: () => void;
+  onFillingsClick: () => void;
+  onSaucesClick: () => void;
+}
 
 export const Tabs = ({
   bunsShown,
@@ -12,7 +18,7 @@ export const Tabs = ({
   onBunsClick,
   onSaucesClick,
   onFillingsClick,
-}) => {
+}: TabsProps) => {
   return (
     <div className={TabsStyles.tabs}>
       <Tab value="one" active={bunsShown} onClick={onBunsClick}>
@@ -26,13 +32,4 @@ export const Tabs = ({
       </Tab>
     </div>
   );
-};
-
-Tabs.propTypes = {
-  bunsShown: PropTypes.bool.isRequired,
-  saucesShown: PropTypes.bool.isRequired,
-  fillingsShown: PropTypes.bool.isRequired,
-  onBunsClick: PropTypes.func.isRequired,
-  onSaucesClick: PropTypes.func.isRequired,
-  onFillingsClick: PropTypes.func.isRequired,
 };

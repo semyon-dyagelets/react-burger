@@ -1,24 +1,21 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
 import { IngredientCard } from "./IngredientCard/IngredientCard";
 import { Tabs } from "./Tabs/Tabs";
-import { Modal } from "../Modal/Modal";
-import { IngredientDetails } from "./IngredientDetails/IngredientDetails";
-
-import { useDispatch, useSelector } from "react-redux";
 import { fetchIngredients } from "../../services/actions/ingredients";
-import { OPEN_INGREDIENT_DETAILS } from "../../services/actions/details";
+import { IngredientProps, IngredientType } from "../../utils/types";
 
 import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
-import { Link } from "react-router-dom";
 
 export const BurgerIngredients = () => {
   const dispatch = useDispatch();
 
-  const bunsTitleRef = useRef();
-  const saucesTitleRef = useRef();
-  const fillingsTitleRef = useRef();
+  const bunsTitleRef = useRef<HTMLHeadingElement>(null);
+  const saucesTitleRef = useRef<HTMLHeadingElement>(null);
+  const fillingsTitleRef = useRef<HTMLHeadingElement>(null);
 
   const { ref: bunsRef, inView: bunsVisible } = useInView({ threshold: 0.8 });
   const { ref: saucesRef, inView: saucesVisible } = useInView({
@@ -28,38 +25,30 @@ export const BurgerIngredients = () => {
     threshold: 0.4,
   });
 
-  const { ingredients } = useSelector((state) => state.ingredientsState);
+  const { ingredients } = useSelector((state: any) => state.ingredientsState);
 
-  const [isShowIngridientModal, setIsShowIngridientModal] = useState(false);
-
-  const openIngridientModal = () => {
-    setIsShowIngridientModal(true);
-  };
-
-  const closeIngridientModal = () => {
-    setIsShowIngridientModal(false);
-  };
-
-  const handleIngridientClick = (ingredient) => {
-    dispatch({ type: OPEN_INGREDIENT_DETAILS, payload: ingredient });
-    openIngridientModal();
-  };
-
-  const scrollIntoView = (ref) => {
-    ref.current.scrollIntoView({
-      behavior: "smooth",
-    });
+  const scrollIntoView = (ref: React.RefObject<HTMLElement>) => {
+    if (ref && ref.current) {
+      ref.current.scrollIntoView({
+        behavior: "smooth",
+      });
+    }
   };
 
   useEffect(() => {
+    // @ts-ignore
     dispatch(fetchIngredients());
   }, [dispatch]);
 
-  const buns = ingredients.filter((ingredient) => ingredient.type === "bun");
-  const sauces = ingredients.filter(
-    (ingredient) => ingredient.type === "sauce"
+  const buns: IngredientProps[] = ingredients.filter(
+    (ingredient: IngredientProps) => ingredient.type === IngredientType.BUN
   );
-  const mains = ingredients.filter((ingredient) => ingredient.type === "main");
+  const sauces: IngredientProps[] = ingredients.filter(
+    (ingredient: IngredientProps) => ingredient.type === "sauce"
+  );
+  const mains: IngredientProps[] = ingredients.filter(
+    (ingredient: IngredientProps) => ingredient.type === "main"
+  );
 
   return (
     <>
@@ -88,10 +77,7 @@ export const BurgerIngredients = () => {
             {buns.map((item) => (
               <li key={item._id}>
                 <Link to={{ pathname: `/ingredients/${item._id}` }}>
-                  <IngredientCard
-                    ingredient={item}
-                    onIngridientCardClick={() => handleIngridientClick(item)}
-                  />
+                  <IngredientCard ingredient={item} />
                 </Link>
               </li>
             ))}
@@ -106,10 +92,7 @@ export const BurgerIngredients = () => {
             {sauces.map((item) => (
               <li key={item._id}>
                 <Link to={{ pathname: `/ingredients/${item._id}` }}>
-                  <IngredientCard
-                    ingredient={item}
-                    onIngridientCardClick={() => handleIngridientClick(item)}
-                  />
+                  <IngredientCard ingredient={item} />
                 </Link>
               </li>
             ))}
@@ -122,25 +105,13 @@ export const BurgerIngredients = () => {
             {mains.map((item) => (
               <li key={item._id}>
                 <Link to={{ pathname: `/ingredients/${item._id}` }}>
-                  <IngredientCard
-                    ingredient={item}
-                    onIngridientCardClick={() => handleIngridientClick(item)}
-                  />
+                  <IngredientCard ingredient={item} />
                 </Link>
               </li>
             ))}
           </ul>
         </div>
       </section>
-      {isShowIngridientModal && (
-        <Modal
-          onClose={closeIngridientModal}
-          className={`${BurgerIngredientsStyles.modal__content_ingredient} pt-10 pr-10 pb-15 pl-10`}
-          buttonCloseClassName={`${BurgerIngredientsStyles.modal__close_ingridient}`}
-        >
-          <IngredientDetails />
-        </Modal>
-      )}
     </>
   );
 };

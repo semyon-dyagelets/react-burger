@@ -1,15 +1,19 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { ingredientPropTypes } from "../../../utils/types";
-
-import PropTypes from "prop-types";
+import { IngredientProps } from "../../../utils/types";
 
 import BunConstructorElementStyles from "./BunConstructorElementStyles.module.css";
+
+interface BunConstructorElementProps {
+  bunSelected: IngredientProps;
+  typeOfBun: "top" | "bottom" | undefined;
+  extraText: string;
+}
 
 export const BunConstructorElement = ({
   bunSelected,
   typeOfBun,
   extraText,
-}) => {
+}: BunConstructorElementProps) => {
   const { name, price, image } = bunSelected;
   return (
     <div className={BunConstructorElementStyles.element__container}>
@@ -22,10 +26,4 @@ export const BunConstructorElement = ({
       />
     </div>
   );
-};
-
-BunConstructorElement.propTypes = {
-  bunSelected: ingredientPropTypes.isRequired,
-  typeOfBun: PropTypes.string.isRequired,
-  extraText: PropTypes.string.isRequired,
 };

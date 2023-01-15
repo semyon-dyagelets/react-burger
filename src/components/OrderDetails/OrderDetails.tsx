@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import OrderDetailsStyles from "./OrderDetailsStyles.module.css";
 
 export const OrderDetails = () => {
-  const { orderReceiptNumber } = useSelector((state) => state.orderState);
+  const { orderReceiptNumber } = useSelector((state: any) => state.orderState);
   return (
     <>
       <span className="text text_type_digits-large">{orderReceiptNumber}</span>
