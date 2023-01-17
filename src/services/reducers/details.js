@@ -4,7 +4,7 @@ import {
 } from "../actions/details";
 
 const initialState = {
-  selectedIngridient: null,
+  selectedIngredient: null,
 };
 
 export const detailsReducer = (state = initialState, action) => {
@@ -12,13 +12,13 @@ export const detailsReducer = (state = initialState, action) => {
     case OPEN_INGREDIENT_DETAILS: {
       return {
         ...state,
-        selectedIngridient: action.payload,
+        selectedIngredient: action.payload,
       };
     }
     case CLOSE_INGREDIENT_DETAILS: {
       return {
         ...state,
-        selectedIngridient: null,
+        selectedIngredient: null,
       };
     }
     default: {

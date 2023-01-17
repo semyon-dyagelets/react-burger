@@ -10,9 +10,9 @@ export const DECREASE_INGREDIENT_COUNT = "DECREASE_INGREDIENT_COUNT";
 export const fetchIngredients = () => {
   return (dispatch) => {
     dispatch({ type: FETCH_INGREDIENTS_REQUEST });
-    getIngredients().then((data) => {
-      if (data) {
-        const ingredientsWithQuantity = data.map((ingredient) => ({
+    getIngredients().then((response) => {
+      if (response.data) {
+        const ingredientsWithQuantity = response.data.map((ingredient) => ({
           ...ingredient,
           quantityInOrder: 0,
         }));

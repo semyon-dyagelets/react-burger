@@ -13,7 +13,7 @@ const modalRootElement = document.getElementById(
 interface ModalProps {
   buttonCloseClassName?: string;
   children?: ReactNode;
-  className: string;
+  className?: string;
   onClose: () => void;
 }
 

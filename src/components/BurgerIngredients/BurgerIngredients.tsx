@@ -1,17 +1,16 @@
-import React, { useEffect, useRef } from "react";
-import { Link } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useRef } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
 import { IngredientCard } from "./IngredientCard/IngredientCard";
 import { Tabs } from "./Tabs/Tabs";
-import { fetchIngredients } from "../../services/actions/ingredients";
 import { IngredientProps, IngredientType } from "../../utils/types";
 
 import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
 
 export const BurgerIngredients = () => {
-  const dispatch = useDispatch();
+  const location = useLocation();
 
   const bunsTitleRef = useRef<HTMLHeadingElement>(null);
   const saucesTitleRef = useRef<HTMLHeadingElement>(null);
@@ -34,11 +33,6 @@ export const BurgerIngredients = () => {
       });
     }
   };
-
-  useEffect(() => {
-    // @ts-ignore
-    dispatch(fetchIngredients());
-  }, [dispatch]);
 
   const buns: IngredientProps[] = ingredients.filter(
     (ingredient: IngredientProps) => ingredient.type === IngredientType.BUN
@@ -76,7 +70,12 @@ export const BurgerIngredients = () => {
           >
             {buns.map((item) => (
               <li key={item._id}>
-                <Link to={{ pathname: `/ingredients/${item._id}` }}>
+                <Link
+                  to={{
+                    pathname: `/ingredients/${item._id}`,
+                    state: { background: location },
+                  }}
+                >
                   <IngredientCard ingredient={item} />
                 </Link>
               </li>

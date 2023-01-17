@@ -17,15 +17,15 @@ export const IngredientPage = () => {
     history.push("/");
   };
 
-  const loadIngredientInfo = useCallback(() => {
-    getIngredients().then((ingredients: IngredientProps[]) => {
-        setIngredientToShow(ingredients.find(({ _id }) => _id === ingredientId));
-    });
-  }, [ingredientId]);
+  // const loadIngredientInfo = useCallback(() => {
+  //   getIngredients().then((ingredients: IngredientProps[]) => {
+  //       setIngredientToShow(ingredients.find(({ _id }) => _id === ingredientId));
+  //   });
+  // }, [ingredientId]);
 
-  useEffect(() => {
-    loadIngredientInfo();
-  }, [ingredientId, loadIngredientInfo]);
+  // useEffect(() => {
+  //   loadIngredientInfo();
+  // }, [ingredientId, loadIngredientInfo]);
 
   return ingredientToShow ? (
     <Modal
@@ -33,7 +33,7 @@ export const IngredientPage = () => {
       className={`${IngredientPageStyles.modal__content_ingredient} pt-10 pr-10 pb-15 pl-10`}
       buttonCloseClassName={`${IngredientPageStyles.modal__close_ingridient}`}
     >
-      <IngredientDetails selectedIngredient={ingredientToShow} />
+      {/* <IngredientDetails selectedIngredient={ingredientToShow} /> */}
     </Modal>
   ) : null;
 };

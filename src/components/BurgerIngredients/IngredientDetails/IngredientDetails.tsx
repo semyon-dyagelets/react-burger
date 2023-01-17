@@ -1,13 +1,13 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useHistory, useParams } from "react-router-dom";
 import { IngredientProps } from "../../../utils/types";
 import IngredientDetailsStyles from "./IngredientDetailsStyles.module.css";
 
-interface IngredientDetailsProps {
-  selectedIngredient: IngredientProps;
-}
+export const IngredientDetails = () => {
+  // const { selectedIngredient } = useSelector((state: any) => state.detailsState);
 
-export const IngredientDetails = ({
-  selectedIngredient,
-}: IngredientDetailsProps) => {
+  const [ingredientToShow, setIngredientToShow] = useState<IngredientProps>();
   const {
     calories,
     carbohydrates,
@@ -15,7 +15,15 @@ export const IngredientDetails = ({
     image_large: imageLarge,
     name,
     proteins,
-  } = selectedIngredient;
+  } = ingredientToShow;
+  const { ingredients } = useSelector((state: any) => state.ingredientsState);
+  const { ingredientId } = useParams<{ ingredientId: string }>();
+
+  useEffect(() => {
+    setIngredientToShow(ingredients.find(({ _id }) => _id === ingredientId));
+  });
+
+  const history = useHistory();
 
   return (
     <div className={IngredientDetailsStyles.modal__container}>
