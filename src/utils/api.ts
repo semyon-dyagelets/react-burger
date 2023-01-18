@@ -1,13 +1,6 @@
 import { BASE_URL } from "./constants";
 
-import { getCookie, setCookie } from "./helpers";
-
-export const checkResponse = (response: Response) => {
-  if (response.ok) {
-    return response.json();
-  }
-  return Promise.reject(`Ошибка ${response.status}`);
-};
+import { getCookie, setCookie, checkResponse } from "./helpers";
 
 function request(url: string, options: RequestInit) {
   return fetch(url, options).then(checkResponse);
@@ -91,34 +84,6 @@ export const getNewToken = async () =>
       token: getCookie("refreshToken"),
     }),
   });
-
-// export const fetchWithRefresh = async (url: string, options: RequestInit) => {
-//   const response = await fetch(url, options);
-//   if (response) {
-//     const result = await response.json();
-//     if (
-//       !result.success &&
-//       (result.message === "jwt expired" || "Token is invalid")
-//     ) {
-//       const refreshData = await getNewToken();
-//       if (!refreshData.success) {
-//         return Promise.reject(refreshData);
-//       }
-//       const { accessToken, refreshToken } = refreshData;
-//       const extractedAccessToken = accessToken.split("Bearer ")[1];
-//       setCookie("accessToken", extractedAccessToken);
-//       setCookie("refreshToken", refreshToken);
-//       // @ts-ignore
-//       options.headers.authorization = accessToken;
-//       const response = await fetch(url, options);
-//       const result = await response.json();
-//       return result;
-//     }
-//     return result;
-//   } else {
-//     return Promise.reject();
-//   }
-// };
 
 export const fetchWithRefresh = async (url: string, options: RequestInit) => {
   try {

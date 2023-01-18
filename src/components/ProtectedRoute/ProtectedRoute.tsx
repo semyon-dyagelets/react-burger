@@ -7,48 +7,38 @@ import { checkToken } from "../../services/actions/user";
 interface ProtectedRouteProps extends RouteProps {
   children: ReactNode;
   rest?: any;
-  unauthorisedUserOnly?: boolean;
-};
+  authorisationRequired?: boolean;
+}
 
 export const ProtectedRoute = ({
-  unauthorisedUserOnly = false,
+  authorisationRequired,
   children,
   ...rest
 }: ProtectedRouteProps) => {
-  const { userAuthorised, authorisationChecked } = useSelector(
-    (state: any) => state.userState
-  );
+  const { userAuthorised } = useSelector((state: any) => state.userState);
   const dispatch = useDispatch();
-  const location = useLocation();
+
+  const location = useLocation<{ from: Location }>();
 
   useEffect(() => {
     // @ts-ignore
     dispatch(checkToken());
   }, [dispatch]);
 
-  if (!authorisationChecked) {
-    return null;
-  }
-
-  if (unauthorisedUserOnly && userAuthorised) {
+  if (!authorisationRequired && userAuthorised) {
+    const { from } = location.state || { from: { pathname: "/" } };
     return (
-      <Redirect
-        to={{
-          pathname: "/",
-          state: { from: location },
-        }}
-      />
+      <Route {...rest}>
+        <Redirect to={from} />
+      </Route>
     );
   }
 
-  if (!unauthorisedUserOnly && !userAuthorised) {
+  if (authorisationRequired && !userAuthorised) {
     return (
-      <Redirect
-        to={{
-          pathname: "/login",
-          state: { from: location },
-        }}
-      />
+      <Route {...rest}>
+        <Redirect to={{ pathname: "/login", state: { from: location } }} />
+      </Route>
     );
   }
 

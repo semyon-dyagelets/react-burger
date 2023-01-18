@@ -1,8 +1,8 @@
 import { ReactNode, useEffect } from "react";
 import ReactDom from "react-dom";
+import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
-import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import ModalStyles from "./ModalStyles.module.css";
 

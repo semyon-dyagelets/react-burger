@@ -27,9 +27,10 @@ import {
 } from "../../services/actions/ingredients";
 import { BunConstructorElement } from "./BunConstructorElement/BunConstructorElement";
 import { MainConstructorElement } from "./MainConstructorElement/MainConstructorElement";
+import { IngredientProps, IngredientType } from "../../utils/types";
 
 import BurgerConstructorStyles from "./BurgerConstructorStyles.module.css";
-import { IngredientProps, IngredientType } from "../../utils/types";
+
 
 export const BurgerConstructor = () => {
   const [isShowModal, setIsShowModal] = useState(false);

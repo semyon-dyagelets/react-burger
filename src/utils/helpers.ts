@@ -1,6 +1,13 @@
 import { v4 as uuid } from "uuid";
 import { IngredientProps } from "./types";
 
+export const checkResponse = (response: Response) => {
+  if (response.ok) {
+    return response.json();
+  }
+  return Promise.reject(`Ошибка ${response.status}`);
+};
+
 export const prepareIdsForOrder = (elements: IngredientProps[]) => {
   const elementsIds = elements.map((element) => element._id);
     elementsIds.push(elementsIds.shift() as string);

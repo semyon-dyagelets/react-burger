@@ -42,14 +42,10 @@ export const ProfilePage = () => {
     setNameInputValue(event.target.value);
   };
 
-  const handleLogout = useCallback(
-    () => {
-      // @ts-ignore
-      dispatch(logoutUser());
-      history.push("/login");
-    },
-    [dispatch, history]
-  );
+  const handleLogout = useCallback(() => {
+    // @ts-ignore
+    dispatch(logoutUser());
+  }, [dispatch]);
 
   const handleClickCancel = () => {
     setEmailInputValue(userEmail);

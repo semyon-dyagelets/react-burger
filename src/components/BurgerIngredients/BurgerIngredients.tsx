@@ -90,7 +90,12 @@ export const BurgerIngredients = () => {
           >
             {sauces.map((item) => (
               <li key={item._id}>
-                <Link to={{ pathname: `/ingredients/${item._id}` }}>
+                <Link
+                  to={{
+                    pathname: `/ingredients/${item._id}`,
+                    state: { background: location },
+                  }}
+                >
                   <IngredientCard ingredient={item} />
                 </Link>
               </li>
@@ -103,7 +108,12 @@ export const BurgerIngredients = () => {
           >
             {mains.map((item) => (
               <li key={item._id}>
-                <Link to={{ pathname: `/ingredients/${item._id}` }}>
+                <Link
+                  to={{
+                    pathname: `/ingredients/${item._id}`,
+                    state: { background: location },
+                  }}
+                >
                   <IngredientCard ingredient={item} />
                 </Link>
               </li>
