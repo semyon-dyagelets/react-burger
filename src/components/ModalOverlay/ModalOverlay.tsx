@@ -1,16 +1,14 @@
-import PropTypes from "prop-types";
-
 import ModalOverlayStyles from "./ModalOverlayStyles.module.css";
 
-export const ModalOverlay = ({ handleClickOutsideModal }) => {
+interface ModalOverlayProps {
+  handleClickOutsideModal: () => void;
+}
+
+export const ModalOverlay = ({ handleClickOutsideModal } : ModalOverlayProps) => {
   return (
     <div
       className={ModalOverlayStyles.overlay}
       onClick={handleClickOutsideModal}
     ></div>
   );
-};
-
-ModalOverlay.propTypes = {
-  handleClickOutsideModal: PropTypes.func.isRequired,
 };

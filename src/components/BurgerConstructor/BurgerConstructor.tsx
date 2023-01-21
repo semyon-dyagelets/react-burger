@@ -6,38 +6,44 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+
 import { Modal } from "../Modal/Modal";
 import { OrderDetails } from "../OrderDetails/OrderDetails";
 import { createOrder } from "../../services/actions/order";
 import {
-  addBunFromIngredientToConstructor,
-  addMainFromIngredientsToConstructor,
+  ADD_BUN_TO_CONSTRUCTOR,
+  ADD_MAIN_TO_CONSTRUCTOR,
   DELETE_BUN_FROM_CONSTRUCTOR,
   DELETE_MAIN_FROM_CONSTRUCTOR,
   SET_NEW_ORDER_OF_MAINS,
 } from "../../services/actions/constructor";
-import { prepareIdsForOrder } from "../../utils/helpers";
+import {
+  omitQuantityAddCustomId,
+  prepareIdsForOrder,
+} from "../../utils/helpers";
 import {
   DECREASE_INGREDIENT_COUNT,
   INCREASE_INGREDIENT_COUNT,
 } from "../../services/actions/ingredients";
 import { BunConstructorElement } from "./BunConstructorElement/BunConstructorElement";
 import { MainConstructorElement } from "./MainConstructorElement/MainConstructorElement";
+import { IngredientProps, IngredientType } from "../../utils/types";
 
 import BurgerConstructorStyles from "./BurgerConstructorStyles.module.css";
+
 
 export const BurgerConstructor = () => {
   const [isShowModal, setIsShowModal] = useState(false);
   const dispatch = useDispatch();
   const history = useHistory();
-  const { mains, buns } = useSelector((state) => state.constructorState);
-  const { userAuthorised } = useSelector((state) => state.userState);
+  const { mains, buns } = useSelector((state: any) => state.constructorState);
+  const { userAuthorised } = useSelector((state: any) => state.userState);
   const hasIngridientsInOrder = mains.length && buns.length;
   const bunSelected = buns[0];
   const allIngredients = [...buns, ...mains];
   const totalPrice = allIngredients.reduce((acc, item) => acc + item.price, 0);
 
-  const moveCard = (dragIndex, hoverIndex) => {
+  const moveCard = (dragIndex: number, hoverIndex: number) => {
     const dragItem = mains[dragIndex];
     if (dragItem) {
       const mainsArrayCopy = [...mains];
@@ -50,15 +56,18 @@ export const BurgerConstructor = () => {
 
   const [, dropTarget] = useDrop({
     accept: "ingredientToDrag",
-    drop(ingredient) {
+    drop(ingredient: IngredientProps) {
       onDropHandler(ingredient);
     },
   });
 
-  const onDropHandler = (ingredient) => {
-    if (ingredient.type === "bun") {
+  const onDropHandler = (ingredient: IngredientProps) => {
+    if (ingredient.type === IngredientType.BUN) {
       if (!buns.length) {
-        dispatch(addBunFromIngredientToConstructor(ingredient));
+        dispatch({
+          type: ADD_BUN_TO_CONSTRUCTOR,
+          payload: omitQuantityAddCustomId(ingredient),
+        });
         dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
         return;
       }
@@ -68,17 +77,23 @@ export const BurgerConstructor = () => {
       if (buns.length === 2 && ingredient._id !== bunSelected._id) {
         dispatch({ type: DELETE_BUN_FROM_CONSTRUCTOR });
         dispatch({ type: DECREASE_INGREDIENT_COUNT, payload: bunSelected });
-        dispatch(addBunFromIngredientToConstructor(ingredient));
+        dispatch({
+          type: ADD_BUN_TO_CONSTRUCTOR,
+          payload: omitQuantityAddCustomId(ingredient),
+        });
         dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
         return;
       }
     }
 
-    dispatch(addMainFromIngredientsToConstructor(ingredient));
+    dispatch({
+      type: ADD_MAIN_TO_CONSTRUCTOR,
+      payload: omitQuantityAddCustomId(ingredient),
+    });
     dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
   };
 
-  const deleteIngredient = (ingredient) => {
+  const deleteIngredient = (ingredient: IngredientProps) => {
     dispatch({
       type: DELETE_MAIN_FROM_CONSTRUCTOR,
       payload: ingredient,
@@ -95,6 +110,7 @@ export const BurgerConstructor = () => {
     }
     if (hasIngridientsInOrder) {
       const idsForOrder = prepareIdsForOrder(allIngredients);
+      // @ts-ignore
       dispatch(createOrder(idsForOrder));
       openOrderModal();
     }
@@ -125,12 +141,12 @@ export const BurgerConstructor = () => {
           <ul
             className={`${BurgerConstructorStyles.elements__mainIngredients} custom-scroll`}
           >
-            {mains.map((mainIngredient, index) => (
+            {mains.map((mainIngredient: IngredientProps, index: number) => (
               <MainConstructorElement
                 index={index}
                 key={`key_${index}`}
                 element={mainIngredient}
-                typeOfElement="undefined"
+                typeOfElement={undefined}
                 onCloseClick={() => deleteIngredient(mainIngredient)}
                 moveCard={moveCard}
               />

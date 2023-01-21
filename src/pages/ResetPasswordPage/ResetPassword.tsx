@@ -15,21 +15,26 @@ export const ResetPasswordPage = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
 
-  const { forgotPasswordSuccess } = useSelector((state) => state.userState);
+  const { forgotPasswordSuccess } = useSelector(
+    (state: any) => state.userState
+  );
 
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const onCodeInputChange = (event) => {
+  const onCodeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setCodeValue(event.target.value);
   };
 
-  const onPasswordInputChange = (event) => {
+  const onPasswordInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
     setPasswordValue(event.target.value);
   };
 
-  const handleSaveClick = (event) => {
+  const handleSaveClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    // @ts-ignore
     dispatch(restoreWithNewPassword(passwordValue, codeValue, history));
     setPasswordValue("");
     setCodeValue("");
@@ -46,7 +51,7 @@ export const ResetPasswordPage = () => {
       <h2 className={`${ResetPasswordStyles.title} text text_type_main-medium`}>
         Восстановление пароля
       </h2>
-      <form className={ResetPasswordStyles.form}>
+      <form className={ResetPasswordStyles.form} onSubmit={handleSaveClick}>
         <PasswordInput
           onChange={onPasswordInputChange}
           value={passwordValue}
@@ -64,7 +69,6 @@ export const ResetPasswordPage = () => {
           type="primary"
           size="medium"
           extraClass="mt-6"
-          onClick={handleSaveClick}
           disabled={!passwordValue || !codeValue}
         >
           Сохранить

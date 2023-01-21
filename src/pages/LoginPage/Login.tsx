@@ -17,17 +17,18 @@ export const LoginPage = () => {
   const [passwordInputValue, setPasswordInputValue] = useState("");
   const dispatch = useDispatch();
 
-  const changeEmailInput = (event) => {
+  const changeEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailInputValue(event.target.value);
   };
 
-  const changePasswordInput = (event) => {
+  const changePasswordInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setPasswordInputValue(event.target.value);
   };
 
   const handleLogin = useCallback(
-    (event) => {
+    (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
+      // @ts-ignore
       dispatch(authoriseUser(emailInputValue, passwordInputValue));
       setEmailInputValue("");
       setPasswordInputValue("");

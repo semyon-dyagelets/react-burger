@@ -3,12 +3,15 @@ import {
   Counter,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../../utils/types";
+
+import { IngredientProps } from "../../../utils/types";
 
 import IngredientCardStyles from "./IngredientCardStyles.module.css";
 
-export const IngredientCard = ({ ingredient, onIngridientCardClick }) => {
+interface IngredientCardProps {
+  ingredient: IngredientProps;
+}
+export const IngredientCard = ({ ingredient }: IngredientCardProps) => {
   const { image, name, price, quantityInOrder } = ingredient;
   const [, dragRef] = useDrag({
     type: "ingredientToDrag",
@@ -16,14 +19,10 @@ export const IngredientCard = ({ ingredient, onIngridientCardClick }) => {
   });
 
   return (
-    <div
-      className={IngredientCardStyles.card}
-      onClick={onIngridientCardClick}
-      ref={dragRef}
-    >
-      {quantityInOrder > 0 && (
+    <div className={IngredientCardStyles.card} ref={dragRef}>
+      {quantityInOrder ? (
         <Counter count={quantityInOrder} size="default" extraClass="m-1" />
-      )}
+      ) : null}
       <img src={image} alt={name} />
       <div className={`${IngredientCardStyles.card__price} mt-1`}>
         <span className="text text_type_digits-default mr-1">{price}</span>
@@ -36,9 +35,4 @@ export const IngredientCard = ({ ingredient, onIngridientCardClick }) => {
       </p>
     </div>
   );
-};
-
-IngredientCard.propTypes = {
-  ingredient: ingredientPropTypes.isRequired,
-  onIngridientCardClick: PropTypes.func.isRequired,
 };
