@@ -12,6 +12,11 @@ export const getIngredients = async () =>
     method: "GET",
   });
 
+export const getOrderByNumber = async (oderNumber: number) => 
+await request(`${BASE_URL}/orders/${oderNumber}`, {
+  method: "GET",
+})
+
 export const sendOrder = async (orderData: TOrderRequest ) =>
   await request(`${BASE_URL}/orders`, {
     method: "POST",
