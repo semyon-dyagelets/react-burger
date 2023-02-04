@@ -1,16 +1,23 @@
+import { TCreateOrderActions } from "../actions/order";
 import {
   CREATE_ORDER_FAILED,
   CREATE_ORDER_LOADING,
   CREATE_ORDER_SUCCESS,
-} from "../actions/order";
+} from "../constants/index";
 
-const initialState = {
+type TOrdersState = {
+  orderReceiptNumber: string,
+  orderLoading: boolean,
+  orderFailed: boolean,
+}
+
+const initialState: TOrdersState = {
   orderReceiptNumber: "0000",
   orderLoading: false,
   orderFailed: false,
 };
 
-export const orderReducer = (state = initialState, action) => {
+export const orderReducer = (state = initialState, action: TCreateOrderActions): TOrdersState => {
   switch (action.type) {
     case CREATE_ORDER_LOADING: {
       return {

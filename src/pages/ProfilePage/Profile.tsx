@@ -1,8 +1,7 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   NavLink,
   BrowserRouter as Router,
-  useHistory,
   Switch,
   Route,
 } from "react-router-dom";
@@ -13,17 +12,20 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { useDispatch, useSelector } from "react-redux";
 import { logoutUser, updateUser } from "../../services/actions/user";
-import { OrdersPage } from "../OrdersPage/Orders";
+import { useAppDispatch, useAppSelector } from "../../services/types";
+import { OrderList } from "../../components/OrderList/OrderList";
 
 import ProfileStyles from "./ProfileStyles.module.css";
+import { useDispatch } from "react-redux";
+import { WEBSOCKET_CONNECTION_CLOSED, WEBSOCKET_CONNECTION_REQUEST } from "../../services/constants";
+import { WEBSOCKET_URL } from "../../utils/constants";
+import { getCookie } from "../../utils/helpers";
 
 export const ProfilePage = () => {
+  const appDispatch = useAppDispatch();
+  const { userName, userEmail } = useAppSelector((state) => state.userState);
   const dispatch = useDispatch();
-  const history = useHistory();
-  const { userName, userEmail } = useSelector((state: any) => state.userState);
-
   const [emailInputValue, setEmailInputValue] = useState(userEmail);
   const [passwordInputValue, setPasswordInputValue] = useState("");
   const [nameInputValue, setNameInputValue] = useState(userName);
@@ -43,9 +45,8 @@ export const ProfilePage = () => {
   };
 
   const handleLogout = useCallback(() => {
-    // @ts-ignore
-    dispatch(logoutUser());
-  }, [dispatch]);
+    appDispatch(logoutUser());
+  }, [appDispatch]);
 
   const handleClickCancel = () => {
     setEmailInputValue(userEmail);
@@ -55,9 +56,18 @@ export const ProfilePage = () => {
 
   const handleSaveUpdatedInfo = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
-    dispatch(updateUser(nameInputValue, emailInputValue, passwordInputValue));
+    appDispatch(updateUser(nameInputValue, emailInputValue, passwordInputValue));
   };
+
+  useEffect(() => {
+    dispatch({
+      type: WEBSOCKET_CONNECTION_REQUEST,
+      payload: `${WEBSOCKET_URL}?token=${getCookie("accessToken")}`
+    });
+    return () => {
+      dispatch({ type: WEBSOCKET_CONNECTION_CLOSED });
+    };
+  }, [dispatch]);
 
   return (
     <div className={ProfileStyles.container}>
@@ -93,9 +103,14 @@ export const ProfilePage = () => {
               </Button>
             </li>
           </ul>
-          <span className="text text_type_main-default text_color_inactive mt-20">
-            В этом разделе вы можете изменить свои персональные данные
-          </span>
+            <span className="text text_type_main-default text_color_inactive mt-20">
+              <Route exact path="/profile">
+                В этом разделе вы можете изменить свои персональные данные
+              </Route>
+              <Route exact path="/profile/orders">
+                В этом разделе вы можете просмотреть свою историю заказов
+              </Route>
+            </span>
         </nav>
         <Switch>
           <Route exact path="/profile">
@@ -137,8 +152,8 @@ export const ProfilePage = () => {
               </div>
             </form>
           </Route>
-          <Route exact path="profile/orders">
-            <OrdersPage />
+          <Route exact path="/profile/orders">
+            <OrderList />
           </Route>
         </Switch>
       </Router>

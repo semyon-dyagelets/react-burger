@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useDrop } from "react-dnd";
 import { useHistory } from "react-router-dom";
 import {
@@ -11,33 +10,33 @@ import { Modal } from "../Modal/Modal";
 import { OrderDetails } from "../OrderDetails/OrderDetails";
 import { createOrder } from "../../services/actions/order";
 import {
-  ADD_BUN_TO_CONSTRUCTOR,
-  ADD_MAIN_TO_CONSTRUCTOR,
-  DELETE_BUN_FROM_CONSTRUCTOR,
-  DELETE_MAIN_FROM_CONSTRUCTOR,
-  SET_NEW_ORDER_OF_MAINS,
+  addBunToConstructorAction,
+  addMainToConstructorAction,
+  deleteBunToConstructorAction,
+  deleteMainFromConstructorAction,
+  setNewOrderOfMainsInConstructorAction,
 } from "../../services/actions/constructor";
 import {
   omitQuantityAddCustomId,
   prepareIdsForOrder,
 } from "../../utils/helpers";
-import {
-  DECREASE_INGREDIENT_COUNT,
-  INCREASE_INGREDIENT_COUNT,
-} from "../../services/actions/ingredients";
 import { BunConstructorElement } from "./BunConstructorElement/BunConstructorElement";
 import { MainConstructorElement } from "./MainConstructorElement/MainConstructorElement";
-import { IngredientProps, IngredientType } from "../../utils/types";
 
 import BurgerConstructorStyles from "./BurgerConstructorStyles.module.css";
-
+import { useAppDispatch, useAppSelector } from "../../services/types";
+import {
+  decreaseIngredientAction,
+  increaseIngredientAction,
+} from "../../services/actions/ingredients";
+import { IngredientType, TIngredientInApp } from "../../services/types/data";
 
 export const BurgerConstructor = () => {
   const [isShowModal, setIsShowModal] = useState(false);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
-  const { mains, buns } = useSelector((state: any) => state.constructorState);
-  const { userAuthorised } = useSelector((state: any) => state.userState);
+  const { mains, buns } = useAppSelector((state) => state.constructorState);
+  const { userAuthorised } = useAppSelector((state) => state.userState);
   const hasIngridientsInOrder = mains.length && buns.length;
   const bunSelected = buns[0];
   const allIngredients = [...buns, ...mains];
@@ -49,59 +48,48 @@ export const BurgerConstructor = () => {
       const mainsArrayCopy = [...mains];
       const prevItem = mainsArrayCopy.splice(hoverIndex, 1, dragItem);
       mainsArrayCopy.splice(dragIndex, 1, prevItem[0]);
-      dispatch({ type: SET_NEW_ORDER_OF_MAINS, payload: mainsArrayCopy });
+      dispatch(setNewOrderOfMainsInConstructorAction(mainsArrayCopy));
       return mainsArrayCopy;
     }
   };
 
   const [, dropTarget] = useDrop({
     accept: "ingredientToDrag",
-    drop(ingredient: IngredientProps) {
+    drop(ingredient: TIngredientInApp) {
       onDropHandler(ingredient);
     },
   });
 
-  const onDropHandler = (ingredient: IngredientProps) => {
+  const onDropHandler = (ingredient: TIngredientInApp) => {
     if (ingredient.type === IngredientType.BUN) {
       if (!buns.length) {
-        dispatch({
-          type: ADD_BUN_TO_CONSTRUCTOR,
-          payload: omitQuantityAddCustomId(ingredient),
-        });
-        dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
+        dispatch(
+          addBunToConstructorAction(omitQuantityAddCustomId(ingredient))
+        );
+        dispatch(increaseIngredientAction(ingredient));
         return;
       }
       if (buns.length === 2 && ingredient._id === bunSelected._id) {
         return;
       }
       if (buns.length === 2 && ingredient._id !== bunSelected._id) {
-        dispatch({ type: DELETE_BUN_FROM_CONSTRUCTOR });
-        dispatch({ type: DECREASE_INGREDIENT_COUNT, payload: bunSelected });
-        dispatch({
-          type: ADD_BUN_TO_CONSTRUCTOR,
-          payload: omitQuantityAddCustomId(ingredient),
-        });
-        dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
+        dispatch(deleteBunToConstructorAction());
+        dispatch(decreaseIngredientAction(bunSelected));
+        dispatch(
+          addBunToConstructorAction(omitQuantityAddCustomId(ingredient))
+        );
+        dispatch(increaseIngredientAction(ingredient));
         return;
       }
     }
 
-    dispatch({
-      type: ADD_MAIN_TO_CONSTRUCTOR,
-      payload: omitQuantityAddCustomId(ingredient),
-    });
-    dispatch({ type: INCREASE_INGREDIENT_COUNT, payload: ingredient });
+    dispatch(addMainToConstructorAction(omitQuantityAddCustomId(ingredient)));
+    dispatch(increaseIngredientAction(ingredient));
   };
 
-  const deleteIngredient = (ingredient: IngredientProps) => {
-    dispatch({
-      type: DELETE_MAIN_FROM_CONSTRUCTOR,
-      payload: ingredient,
-    });
-    dispatch({
-      type: DECREASE_INGREDIENT_COUNT,
-      payload: ingredient,
-    });
+  const deleteIngredient = (ingredient: TIngredientInApp) => {
+    dispatch(deleteMainFromConstructorAction(ingredient));
+    dispatch(decreaseIngredientAction(ingredient));
   };
 
   const handleCreateOrder = () => {
@@ -110,7 +98,6 @@ export const BurgerConstructor = () => {
     }
     if (hasIngridientsInOrder) {
       const idsForOrder = prepareIdsForOrder(allIngredients);
-      // @ts-ignore
       dispatch(createOrder(idsForOrder));
       openOrderModal();
     }
@@ -141,7 +128,7 @@ export const BurgerConstructor = () => {
           <ul
             className={`${BurgerConstructorStyles.elements__mainIngredients} custom-scroll`}
           >
-            {mains.map((mainIngredient: IngredientProps, index: number) => (
+            {mains.map((mainIngredient: TIngredientInApp, index: number) => (
               <MainConstructorElement
                 index={index}
                 key={`key_${index}`}

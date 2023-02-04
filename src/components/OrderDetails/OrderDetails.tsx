@@ -1,10 +1,10 @@
 import { CheckMarkIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../services/types";
 
 import OrderDetailsStyles from "./OrderDetailsStyles.module.css";
 
 export const OrderDetails = () => {
-  const { orderReceiptNumber } = useSelector((state: any) => state.orderState);
+  const { orderReceiptNumber } = useAppSelector((state) => state.orderState);
   return (
     <>
       <span className="text text_type_digits-large">{orderReceiptNumber}</span>

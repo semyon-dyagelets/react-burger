@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Input,
@@ -10,16 +9,17 @@ import {
 import { restoreWithNewPassword } from "../../services/actions/user";
 
 import ResetPasswordStyles from "./ResetPasswordStyles.module.css";
+import { useAppDispatch, useAppSelector } from "../../services/types";
 
 export const ResetPasswordPage = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
 
-  const { forgotPasswordSuccess } = useSelector(
-    (state: any) => state.userState
+  const { forgotPasswordSuccess } = useAppSelector(
+    (state) => state.userState
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   const onCodeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -34,8 +34,8 @@ export const ResetPasswordPage = () => {
 
   const handleSaveClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
-    dispatch(restoreWithNewPassword(passwordValue, codeValue, history));
+    dispatch(restoreWithNewPassword(passwordValue, codeValue));
+    history.push("/login");
     setPasswordValue("");
     setCodeValue("");
   };

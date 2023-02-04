@@ -4,14 +4,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-
-import { IngredientProps } from "../../../utils/types";
+import { TIngredientInApp } from "../../../services/types/data";
 
 import MainConstructorElementStyles from "./MainConstructorElementStyles.module.css";
 
 interface MainConstructorElementProps {
   index: number;
-  element: IngredientProps;
+  element: TIngredientInApp;
   typeOfElement: "top" | "bottom" | undefined;
   onCloseClick: () => void;
   moveCard: (dragIndex: number, hoverIndex: number) => void;

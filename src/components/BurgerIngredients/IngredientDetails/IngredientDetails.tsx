@@ -1,14 +1,13 @@
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-
-import { IngredientProps } from "../../../utils/types";
+import { useAppSelector } from "../../../services/types";
+import { TIngredientInApp } from "../../../services/types/data";
 
 import IngredientDetailsStyles from "./IngredientDetailsStyles.module.css";
 
 export const IngredientDetails = () => {
-  const [ingredientToShow, setIngredientToShow] = useState<IngredientProps>();
-  const ingredients: IngredientProps[] = useSelector((state: any) => state.ingredientsState.ingredients);
+  const [ingredientToShow, setIngredientToShow] = useState<TIngredientInApp>();
+  const { ingredients } = useAppSelector((state) => state.ingredientsState);
   const { ingredientId } = useParams<{ ingredientId: string }>();
 
   useEffect(() => {

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import {
   Button,
@@ -11,9 +10,10 @@ import {
 import { registerUser } from "../../services/actions/user";
 
 import RegisterStyles from "./RegisterStyles.module.css";
+import { useAppDispatch } from "../../services/types";
 
 export const RegisterPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   const [emailInputValue, setEmailInputValue] = useState("");
@@ -34,9 +34,10 @@ export const RegisterPage = () => {
 
   const handleRegisterClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
-    dispatch(registerUser(emailInputValue, passwordInputValue, nameInputValue, history)
+    dispatch(
+      registerUser(emailInputValue, passwordInputValue, nameInputValue)
     );
+    history.push("/login");
   };
 
   return (

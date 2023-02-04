@@ -1,14 +1,14 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { Route, Switch, useHistory, useLocation } from "react-router-dom";
 import { Location } from "history";
 
+import { useAppDispatch } from "../../services/types";
 import { AppHeader } from "../AppHeader/AppHeader";
 import { fetchIngredients } from "../../services/actions/ingredients";
 import { ForgotPasswordPage } from "../../pages/ForgotPasswordPage/ForgotPassword";
 import { IngredientDetails } from "../BurgerIngredients/IngredientDetails/IngredientDetails";
 import { IngredientPage } from "../../pages/IngredientPage/IngredientPage";
-import { LentaPage } from "../../pages/LentaPage/Lenta";
+import { FeedPage } from "../../pages/FeedPage/Feed";
 import { LoginPage } from "../../pages/LoginPage/Login";
 import { MainPage } from "../../pages/MainPage/MainPage";
 import { Modal } from "../Modal/Modal";
@@ -17,17 +17,18 @@ import { ProfilePage } from "../../pages/ProfilePage/Profile";
 import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
 import { RegisterPage } from "../../pages/RegisterPage/Register";
 import { ResetPasswordPage } from "../../pages/ResetPasswordPage/ResetPassword";
+import { OrderPage } from "../../pages/OrderPage/Order";
 
 import AppStyles from "./App.module.css";
+import { OrderContent } from "../OrderContent/OrderContent";
 
 const App = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   let location = useLocation<{ background: Location }>();
   const background = location.state && location.state?.background;
 
   useEffect(() => {
-    //@ts-ignore
     dispatch(fetchIngredients());
   }, [dispatch]);
 
@@ -65,26 +66,67 @@ const App = () => {
               <ProfilePage />
             </ProtectedRoute>
 
+            <ProtectedRoute exact path="/profile/orders" authorisationRequired>
+              <ProfilePage />
+            </ProtectedRoute>
+
             <Route exact path="/feed">
-              <LentaPage />
+              <FeedPage />
+            </Route>
+
+            <Route exact path="/feed/:orderId">
+              <OrderPage />
             </Route>
 
             <Route exact path="/ingredients/:ingredientId">
               <IngredientPage />
             </Route>
 
+            <ProtectedRoute
+              exact
+              path="/profile/orders/:orderId"
+              authorisationRequired
+            >
+              <OrderPage />
+            </ProtectedRoute>
+
             <Route>
               <NotFound404Page />
             </Route>
           </Switch>
+
+          {background && (
+            <Route exact path="/feed/:orderId">
+              <Modal
+                onClose={handleCloseModal}
+                className={AppStyles.modal__content_order}
+                buttonCloseClassName={`${AppStyles.modal__close_order}`}
+              >
+                <OrderContent />
+              </Modal>
+            </Route>
+          )}
+
           {background && (
             <Route exact path="/ingredients/:ingredientId">
               <Modal
                 onClose={handleCloseModal}
                 className={`${AppStyles.modal__content_ingredient} pt-10 pr-10 pb-15 pl-10`}
-                buttonCloseClassName={`${AppStyles.modal__close_ingridient}`}
+                buttonCloseClassName={`${AppStyles.modal__close_ingredient}`}
               >
                 <IngredientDetails />
+              </Modal>
+            </Route>
+          )}
+
+          {background && (
+            <Route exact path="/profile/orders/:orderId">
+              <Modal
+                onClose={handleCloseModal}
+                className={AppStyles.modal__content_order}
+                buttonCloseClassName={`${AppStyles.modal__close_order}`}
+              >
+                <OrderContent />
               </Modal>
             </Route>
           )}

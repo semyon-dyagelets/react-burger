@@ -4,13 +4,13 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
-import { IngredientProps } from "../../../utils/types";
-
 import IngredientCardStyles from "./IngredientCardStyles.module.css";
+import { TIngredientInApp } from "../../../services/types/data";
 
 interface IngredientCardProps {
-  ingredient: IngredientProps;
+  ingredient: TIngredientInApp;
 }
+
 export const IngredientCard = ({ ingredient }: IngredientCardProps) => {
   const { image, name, price, quantityInOrder } = ingredient;
   const [, dragRef] = useDrag({

@@ -1,11 +1,11 @@
 import React, { useRef } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { useInView } from "react-intersection-observer";
 
 import { IngredientCard } from "./IngredientCard/IngredientCard";
 import { Tabs } from "./Tabs/Tabs";
-import { IngredientProps, IngredientType } from "../../utils/types";
+import { useAppSelector } from "../../services/types";
+import { IngredientType, TIngredientInApp } from "../../services/types/data";
 
 import BurgerIngredientsStyles from "./BurgerIngredients.module.css";
 
@@ -24,7 +24,7 @@ export const BurgerIngredients = () => {
     threshold: 0.4,
   });
 
-  const { ingredients } = useSelector((state: any) => state.ingredientsState);
+  const { ingredients } = useAppSelector((state) => state.ingredientsState);
 
   const scrollIntoView = (ref: React.RefObject<HTMLElement>) => {
     if (ref && ref.current) {
@@ -34,14 +34,14 @@ export const BurgerIngredients = () => {
     }
   };
 
-  const buns: IngredientProps[] = ingredients.filter(
-    (ingredient: IngredientProps) => ingredient.type === IngredientType.BUN
+  const buns: TIngredientInApp[] = ingredients.filter(
+    (ingredient: TIngredientInApp) => ingredient.type === IngredientType.BUN
   );
-  const sauces: IngredientProps[] = ingredients.filter(
-    (ingredient: IngredientProps) => ingredient.type === "sauce"
+  const sauces: TIngredientInApp[] = ingredients.filter(
+    (ingredient: TIngredientInApp) => ingredient.type === IngredientType.SAUCE
   );
-  const mains: IngredientProps[] = ingredients.filter(
-    (ingredient: IngredientProps) => ingredient.type === "main"
+  const mains: TIngredientInApp[] = ingredients.filter(
+    (ingredient: TIngredientInApp) => ingredient.type === IngredientType.MAIN
   );
 
   return (
