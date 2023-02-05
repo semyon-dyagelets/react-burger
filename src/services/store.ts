@@ -14,5 +14,7 @@ declare global {
 export const composeEnhancers =
   window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const enhancer = composeEnhancers(applyMiddleware(thunk, webSocketMiddleware(webSocketActions)));
+const enhancer = composeEnhancers(
+  applyMiddleware(thunk, webSocketMiddleware(webSocketActions))
+);
 export const store = createStore(rootReducer, enhancer);

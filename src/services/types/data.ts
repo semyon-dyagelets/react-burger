@@ -1,4 +1,10 @@
-import { WEBSOCKET_CONNECTION_CLOSED, WEBSOCKET_CONNECTION_FAILED, WEBSOCKET_CONNECTION_REQUEST, WEBSOCKET_CONNECTION_SUCCESS, WEBSOCKET_GET_ORDERS, WEBSOCKET_SEND_ORDER } from "../constants";
+import {
+  WEBSOCKET_CONNECTION_CLOSED,
+  WEBSOCKET_CONNECTION_FAILED,
+  WEBSOCKET_CONNECTION_REQUEST,
+  WEBSOCKET_CONNECTION_SUCCESS,
+  WEBSOCKET_GET_ORDERS,
+} from "../constants";
 
 export type TUser = {
   readonly password: string;
@@ -33,7 +39,7 @@ export enum IngredientType {
 
 export enum OrderStatus {
   DONE = "done",
-  IN_PROGRESS = 'created',
+  IN_PROGRESS = "created",
 }
 
 export type TIngredientInApp = TIngredient & {
@@ -43,36 +49,34 @@ export type TIngredientInApp = TIngredient & {
 
 export type TOrderRequest = {
   ingredients: string[];
-}
+};
 
 export type TWebSocketOrder = {
-    ingredients: string[],
-    _id: string,
-    status: string,
-    number: number,
-    createdAt: string,
-    updatedAt: string,
-    name: string,
-}
+  ingredients: string[];
+  _id: string;
+  status: string;
+  number: number;
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+};
 
 export type TWebSocketOrdersResponse = {
-  orders: TWebSocketOrder[],
-  total: number,
-  totalToday: number
-}
+  orders: TWebSocketOrder[];
+  total: number;
+  totalToday: number;
+};
 
 export type TWebSocketActions = {
   wsInit: string;
-  wsSendOrder: string;
   onOpen: string;
   onClose: string;
   onError: string;
   onMessage: string;
-}
+};
 
 export const webSocketActions = {
   wsInit: WEBSOCKET_CONNECTION_REQUEST,
-  wsSendOrder: WEBSOCKET_SEND_ORDER,
   onOpen: WEBSOCKET_CONNECTION_SUCCESS,
   onClose: WEBSOCKET_CONNECTION_CLOSED,
   onError: WEBSOCKET_CONNECTION_FAILED,

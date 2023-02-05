@@ -322,7 +322,7 @@ export const updateUser =
     updateUserData(newName, newLogin, newPassword).then((response) => {
       if (response && response.success) {
         const { user } = response;
-        dispatch(updateUserSuccessAction(user))
+        dispatch(updateUserSuccessAction(user));
       } else {
         dispatch(updateUserFailedAction());
       }
@@ -342,8 +342,7 @@ export const requestForNewPassword =
   };
 
 export const restoreWithNewPassword =
-  (newPassword: string, codeFromLetter: string) =>
-  (dispatch: AppDispatch) => {
+  (newPassword: string, codeFromLetter: string) => (dispatch: AppDispatch) => {
     dispatch(restorePasswordLoadingAction());
     saveNewPassword(newPassword, codeFromLetter).then((response) => {
       if (response) {

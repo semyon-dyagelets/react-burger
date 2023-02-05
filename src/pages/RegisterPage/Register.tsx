@@ -8,9 +8,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { registerUser } from "../../services/actions/user";
-
-import RegisterStyles from "./RegisterStyles.module.css";
 import { useAppDispatch } from "../../services/types";
+import RegisterStyles from "./RegisterStyles.module.css";
 
 export const RegisterPage = () => {
   const dispatch = useAppDispatch();
@@ -34,9 +33,7 @@ export const RegisterPage = () => {
 
   const handleRegisterClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    dispatch(
-      registerUser(emailInputValue, passwordInputValue, nameInputValue)
-    );
+    dispatch(registerUser(emailInputValue, passwordInputValue, nameInputValue));
     history.push("/login");
   };
 

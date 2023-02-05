@@ -8,6 +8,8 @@ import { OrderStatus, TIngredientInApp } from "../../services/types/data";
 
 import OrderContentStyles from "./OrderContentStyles.module.css";
 
+type TIngredientInAppWithCount = TIngredientInApp & { count: number };
+
 export const OrderContent = () => {
   const { orders } = useAppSelector((store) => store.websocketState);
   const { ingredients: ingredientsInMenu } = useAppSelector(
@@ -17,6 +19,7 @@ export const OrderContent = () => {
 
   let orderIngredients: TIngredientInApp[] = [];
   let orderTotalPrice = 0;
+  let ingredientsWithQuantity: TIngredientInAppWithCount[] = [];
 
   const order = orders.find(({ _id }) => _id === orderId);
   const validIngredientIds = order?.ingredients.filter((id) => id !== null);
@@ -28,6 +31,17 @@ export const OrderContent = () => {
     orderIngredients = validIngredientIds.map(
       (id) => ingredientsInMenu.filter((ingredient) => ingredient._id === id)[0]
     );
+
+    let orderIngriedientsWithQuantity = new Map(
+      orderIngredients.map((ingriedient) => [
+        ingriedient._id,
+        { ...ingriedient, count: 0 },
+      ])
+    );
+    for (const { _id } of orderIngredients)
+        // @ts-ignore
+      orderIngriedientsWithQuantity.get(_id).count++;
+      ingredientsWithQuantity = Array.from(orderIngriedientsWithQuantity.values());
   }
 
   return order ? (
@@ -51,7 +65,7 @@ export const OrderContent = () => {
       </span>
       <p className="mt-15 text text_type_main-medium">Состав:</p>
       <ul className={`${OrderContentStyles.ingredients} mt-6 custom-scroll`}>
-        {orderIngredients?.map((ingredient, index) => (
+        {ingredientsWithQuantity?.map((ingredient, index) => (
           <li
             key={index}
             className={`${OrderContentStyles.ingredient} text text_type_digits-default`}
@@ -67,7 +81,7 @@ export const OrderContent = () => {
               {ingredient.name}
             </p>
             <span className="text text_type_digits-default">
-              {`1 × ${ingredient.price}`}
+              {`${ingredient.count} × ${ingredient.price}`}
             </span>
           </li>
         ))}

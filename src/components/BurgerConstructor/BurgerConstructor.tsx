@@ -37,6 +37,7 @@ export const BurgerConstructor = () => {
   const history = useHistory();
   const { mains, buns } = useAppSelector((state) => state.constructorState);
   const { userAuthorised } = useAppSelector((state) => state.userState);
+  const constructorNotEmpty = mains.length || buns.length;
   const hasIngridientsInOrder = mains.length && buns.length;
   const bunSelected = buns[0];
   const allIngredients = [...buns, ...mains];
@@ -126,7 +127,10 @@ export const BurgerConstructor = () => {
             />
           )}
           <ul
-            className={`${BurgerConstructorStyles.elements__mainIngredients} custom-scroll`}
+            className={`${BurgerConstructorStyles.elements__mainIngredients} ${
+              !constructorNotEmpty &&
+              BurgerConstructorStyles.elements__mainIngredients_empty
+            } custom-scroll`}
           >
             {mains.map((mainIngredient: TIngredientInApp, index: number) => (
               <MainConstructorElement

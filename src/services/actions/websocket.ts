@@ -4,9 +4,8 @@ import {
   WEBSOCKET_CONNECTION_REQUEST,
   WEBSOCKET_CONNECTION_SUCCESS,
   WEBSOCKET_GET_ORDERS,
-  WEBSOCKET_SEND_ORDER,
 } from "../constants";
-import { TWebSocketOrder, TWebSocketOrdersResponse } from "../types/data";
+import { TWebSocketOrdersResponse } from "../types/data";
 
 export interface IWebSocketConnectionRequestAction {
   readonly type: typeof WEBSOCKET_CONNECTION_REQUEST;
@@ -30,18 +29,12 @@ export interface IWebSocketGetOrdersAction {
   readonly payload: TWebSocketOrdersResponse;
 }
 
-export interface IWebSocketSendOrderAction {
-  readonly type: typeof WEBSOCKET_SEND_ORDER;
-  readonly payload: TWebSocketOrder;
-}
-
 export type TWebSocketFeedActions =
   | IWebSocketConnectionRequestAction
   | IWebSocketConnectionSuccessAction
   | IWebSocketConnectionFailedAction
   | IWebSocketConnectionClosedAction
-  | IWebSocketGetOrdersAction
-  | IWebSocketSendOrderAction;
+  | IWebSocketGetOrdersAction;
 
 export const webSocketConnectionRequestAction = (
   url: string
@@ -69,12 +62,5 @@ export const webSocketGetOrdersAction = (
   payload: TWebSocketOrdersResponse
 ): IWebSocketGetOrdersAction => ({
   type: WEBSOCKET_GET_ORDERS,
-  payload,
-});
-
-export const webSocketSendOrderAction = (
-  payload: TWebSocketOrder
-): IWebSocketSendOrderAction => ({
-  type: WEBSOCKET_SEND_ORDER,
   payload,
 });

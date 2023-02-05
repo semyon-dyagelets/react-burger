@@ -21,6 +21,8 @@ import { OrderPage } from "../../pages/OrderPage/Order";
 
 import AppStyles from "./App.module.css";
 import { OrderContent } from "../OrderContent/OrderContent";
+import { ProfileForm } from "../ProfileForm/ProfileForm";
+import { OrderList } from "../OrderList/OrderList";
 
 const App = () => {
   const dispatch = useAppDispatch();
@@ -63,11 +65,15 @@ const App = () => {
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/profile" authorisationRequired>
-              <ProfilePage />
+              <ProfilePage>
+                <ProfileForm />
+              </ProfilePage>
             </ProtectedRoute>
 
             <ProtectedRoute exact path="/profile/orders" authorisationRequired>
-              <ProfilePage />
+              <ProfilePage>
+                <OrderList />
+                </ProfilePage>
             </ProtectedRoute>
 
             <Route exact path="/feed">

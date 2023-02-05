@@ -4,7 +4,9 @@ interface ModalOverlayProps {
   handleClickOutsideModal: () => void;
 }
 
-export const ModalOverlay = ({ handleClickOutsideModal } : ModalOverlayProps) => {
+export const ModalOverlay = ({
+  handleClickOutsideModal,
+}: ModalOverlayProps) => {
   return (
     <div
       className={ModalOverlayStyles.overlay}

@@ -9,18 +9,17 @@ export const webSocketMiddleware = (
 
     return (next) => (action) => {
       const { dispatch } = store;
-      const { wsInit, wsSendOrder, onOpen, onClose, onError, onMessage } =
-        wsActions;
+      const { wsInit, onOpen, onClose, onError, onMessage } = wsActions;
       const { type, payload } = action;
 
       if (type === wsInit) {
-        socket = new WebSocket(payload);
+        socket = new WebSocket(`${payload}`);
       }
 
       if (type === wsInit && socket?.readyState === 1) {
         socket.close();
       }
-      
+
       if (socket) {
         socket.onopen = (event) => {
           dispatch({
@@ -49,11 +48,6 @@ export const webSocketMiddleware = (
             payload: event,
           });
         };
-
-        if (type === wsSendOrder) {
-          const message = payload;
-          socket.send(JSON.stringify(message));
-        }
       }
       next(action);
     };

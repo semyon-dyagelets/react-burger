@@ -31,14 +31,12 @@ export const OrderCard = ({ order }: IOrderData) => {
 
   let orderTotalPrice = 0;
   let orderIngredients: TIngredientInApp[] = [];
-
   const validIngredientIds = idsOfIngredients.filter((id) => id !== null);
   let showMoreNumber = validIngredientIds.length - MAX_INGREDIENTS_TO_SHOW;
 
-  if (idsOfIngredients.length) {
+  if (validIngredientIds.length) {
     orderTotalPrice = validIngredientIds.reduce((accum, id) => {
-      //@ts-ignore
-      const item: TIngredientInApp = ingredientsInMenu.find(
+      const item = ingredientsInMenu.find(
         (item) => item._id === id
       );
       return accum + item!.price;
@@ -82,7 +80,9 @@ export const OrderCard = ({ order }: IOrderData) => {
                       src={ingredient.image_mobile}
                       alt={ingredient.name}
                     ></img>
-                    <span className={`${OrderCardStyles.ingredient__plus} text text_type_digits-default`}>
+                    <span
+                      className={`${OrderCardStyles.ingredient__plus} text text_type_digits-default`}
+                    >
                       +{showMoreNumber}
                     </span>
                   </li>

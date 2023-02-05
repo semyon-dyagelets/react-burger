@@ -40,7 +40,7 @@ export type TOrderActions =
   | ICreateOrderLoadingAction
   | ICreateOrderSuccessAction
   | ICreateOrderFailedAction
-  | IGetOrderLoadingAction 
+  | IGetOrderLoadingAction
   | IGetOrderSuccessAction
   | IGetOrderFailedAction;
 
@@ -86,13 +86,13 @@ export const createOrder =
     });
   };
 
-  export const getOrder = (orderNumber: number) => (dispatch: AppDispatch ) => {
-    dispatch(getOrderLoadingAction());
-    getOrderByNumber(orderNumber).then((res) => {
-      if (res) {
-        dispatch(getOrderSuccessAction(res.orders[0]));
-      } else {
-        dispatch(getOrderFailedAction());
-      }
-    })
-  }
+export const getOrder = (orderNumber: number) => (dispatch: AppDispatch) => {
+  dispatch(getOrderLoadingAction());
+  getOrderByNumber(orderNumber).then((res) => {
+    if (res) {
+      dispatch(getOrderSuccessAction(res.orders[0]));
+    } else {
+      dispatch(getOrderFailedAction());
+    }
+  });
+};

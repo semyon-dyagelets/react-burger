@@ -1,5 +1,6 @@
 .number {
-  align-self: center;
+  display: block;
+  text-align: center;
 }
 
 .info {
@@ -14,6 +15,7 @@
 
 .ingredients {
   overflow: auto;
+  max-height: 366px;
 }
 
 .ingredient {

@@ -17,21 +17,10 @@
   min-height: 64px;
 }
 
-.buttons__container {
-  display: flex;
-  justify-content: flex-end;
-  gap: 20px;
-}
-
-.buttons__exit,
-.buttons__cancel {
-  background: none;
-}
-
-.buttons__cancel {
-  color: #4c4cff;
-}
-
 .text_active {
   color: var(--text-primary-color);
+}
+
+.buttons__exit {
+  background: none;
 }

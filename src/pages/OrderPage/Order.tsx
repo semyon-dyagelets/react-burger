@@ -1,18 +1,17 @@
-
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useLocation, useParams } from "react-router-dom";
 import { OrderContent } from "../../components/OrderContent/OrderContent";
-import { getOrder } from "../../services/actions/order";
-import { WEBSOCKET_CONNECTION_CLOSED, WEBSOCKET_CONNECTION_REQUEST } from "../../services/constants";
-import { useAppDispatch } from "../../services/types";
+import {
+  WEBSOCKET_CONNECTION_CLOSED,
+  WEBSOCKET_CONNECTION_REQUEST,
+} from "../../services/constants";
 import { WEBSOCKET_URL } from "../../utils/constants";
 import { getCookie } from "../../utils/helpers";
 
 export const OrderPage = () => {
   const location = useLocation();
   const { orderId } = useParams<{ orderId: string }>();
-  const appDispatch = useAppDispatch();
   const dispatch = useDispatch();
 
   const webSocketUnauthorised = `${WEBSOCKET_URL}/all`;
@@ -21,7 +20,6 @@ export const OrderPage = () => {
   )}`;
 
   useEffect(() => {
-    appDispatch(getOrder(Number(orderId)));
     dispatch({
       type: WEBSOCKET_CONNECTION_REQUEST,
       payload:
@@ -32,12 +30,17 @@ export const OrderPage = () => {
     return () => {
       dispatch({ type: WEBSOCKET_CONNECTION_CLOSED });
     };
-  }, [appDispatch, dispatch, location.pathname, orderId, webSocketAuthorised, webSocketUnauthorised]);
+  }, [
+    dispatch,
+    location.pathname,
+    orderId,
+    webSocketAuthorised,
+    webSocketUnauthorised,
+  ]);
 
-    return (
-      <div className="mt-30">
-        <OrderContent/>
-      </div>
-    );
-  };
-  
+  return (
+    <div className="mt-30">
+      <OrderContent />
+    </div>
+  );
+};

@@ -7,18 +7,13 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { restoreWithNewPassword } from "../../services/actions/user";
-
-import ResetPasswordStyles from "./ResetPasswordStyles.module.css";
 import { useAppDispatch, useAppSelector } from "../../services/types";
+import ResetPasswordStyles from "./ResetPasswordStyles.module.css";
 
 export const ResetPasswordPage = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
-
-  const { forgotPasswordSuccess } = useAppSelector(
-    (state) => state.userState
-  );
-
+  const { forgotPasswordSuccess } = useAppSelector((state) => state.userState);
   const dispatch = useAppDispatch();
   const history = useHistory();
 
@@ -31,7 +26,7 @@ export const ResetPasswordPage = () => {
   ) => {
     setPasswordValue(event.target.value);
   };
-
+  
   const handleSaveClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     dispatch(restoreWithNewPassword(passwordValue, codeValue));
