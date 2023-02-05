@@ -1,16 +1,15 @@
 import { FC, ReactNode, useCallback, useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { NavLink, Route } from "react-router-dom";
 import { Button } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { logoutUser } from "../../services/actions/user";
 import { useAppDispatch } from "../../services/types";
 import {
-  WEBSOCKET_CONNECTION_CLOSED,
   WEBSOCKET_CONNECTION_REQUEST,
 } from "../../services/constants";
 import { WEBSOCKET_URL } from "../../utils/constants";
 import { getCookie } from "../../utils/helpers";
+import { webSocketConnectionClosedAction } from "../../services/actions/websocket";
 
 import ProfileStyles from "./ProfileStyles.module.css";
 
@@ -20,21 +19,20 @@ interface IProfile {
 
 export const ProfilePage: FC<IProfile> = ({ children }) => {
   const appDispatch = useAppDispatch();
-  const dispatch = useDispatch();
 
   const handleLogout = useCallback(() => {
     appDispatch(logoutUser());
   }, [appDispatch]);
 
   useEffect(() => {
-    dispatch({
+    appDispatch({
       type: WEBSOCKET_CONNECTION_REQUEST,
       payload: `${WEBSOCKET_URL}?token=${getCookie("accessToken")}`,
     });
     return () => {
-      dispatch({ type: WEBSOCKET_CONNECTION_CLOSED });
+      appDispatch(webSocketConnectionClosedAction());
     };
-  }, [dispatch]);
+  }, [appDispatch]);
 
   return (
     <div className={ProfileStyles.container}>

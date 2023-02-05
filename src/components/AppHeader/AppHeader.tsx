@@ -4,7 +4,7 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import AppHeaderStyles from "./AppHeader.module.css";
 
 export const AppHeader = () => {
@@ -37,7 +37,9 @@ export const AppHeader = () => {
             </li>
           </div>
           <li className={AppHeaderStyles.logo__container}>
-            <Logo />
+            <Link to="/">
+              <Logo />
+            </Link>
           </li>
           <li className="p-5">
             <NavLink

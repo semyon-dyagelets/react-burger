@@ -132,10 +132,10 @@ export const BurgerConstructor = () => {
               BurgerConstructorStyles.elements__mainIngredients_empty
             } custom-scroll`}
           >
-            {mains.map((mainIngredient: TIngredientInApp, index: number) => (
+            {mains.map((mainIngredient, index: number) => (
               <MainConstructorElement
                 index={index}
-                key={`key_${index}`}
+                key={mainIngredient.customId}
                 element={mainIngredient}
                 typeOfElement={undefined}
                 onCloseClick={() => deleteIngredient(mainIngredient)}

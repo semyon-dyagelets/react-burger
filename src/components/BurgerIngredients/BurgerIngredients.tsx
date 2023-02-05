@@ -35,13 +35,13 @@ export const BurgerIngredients = () => {
   };
 
   const buns: TIngredientInApp[] = ingredients.filter(
-    (ingredient: TIngredientInApp) => ingredient.type === IngredientType.BUN
+    (ingredient) => ingredient.type === IngredientType.BUN
   );
   const sauces: TIngredientInApp[] = ingredients.filter(
-    (ingredient: TIngredientInApp) => ingredient.type === IngredientType.SAUCE
+    (ingredient) => ingredient.type === IngredientType.SAUCE
   );
   const mains: TIngredientInApp[] = ingredients.filter(
-    (ingredient: TIngredientInApp) => ingredient.type === IngredientType.MAIN
+    (ingredient) => ingredient.type === IngredientType.MAIN
   );
 
   return (

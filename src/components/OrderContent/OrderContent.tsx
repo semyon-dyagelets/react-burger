@@ -17,31 +17,34 @@ export const OrderContent = () => {
   );
   const { orderId } = useParams<{ orderId: string }>();
 
+  let order;
   let orderIngredients: TIngredientInApp[] = [];
   let orderTotalPrice = 0;
   let ingredientsWithQuantity: TIngredientInAppWithCount[] = [];
 
-  const order = orders.find(({ _id }) => _id === orderId);
-  const validIngredientIds = order?.ingredients.filter((id) => id !== null);
-  if (validIngredientIds) {
-    orderTotalPrice = validIngredientIds.reduce((accum, id) => {
-      const item = ingredientsInMenu.find((item) => item._id === id);
-      return accum + item!.price;
-    }, 0);
-    orderIngredients = validIngredientIds.map(
-      (id) => ingredientsInMenu.filter((ingredient) => ingredient._id === id)[0]
-    );
-
-    let orderIngriedientsWithQuantity = new Map(
-      orderIngredients.map((ingriedient) => [
-        ingriedient._id,
-        { ...ingriedient, count: 0 },
-      ])
-    );
-    for (const { _id } of orderIngredients)
-        // @ts-ignore
-      orderIngriedientsWithQuantity.get(_id).count++;
-      ingredientsWithQuantity = Array.from(orderIngriedientsWithQuantity.values());
+  if (orders) {
+    order = orders.find(({ _id }) => _id === orderId);
+    const validIngredientIds = order?.ingredients.filter((id) => id !== null);
+    if (validIngredientIds) {
+      orderTotalPrice = validIngredientIds.reduce((accum, id) => {
+        const item = ingredientsInMenu.find((item) => item._id === id);
+        return accum + item!.price;
+      }, 0);
+      orderIngredients = validIngredientIds.map(
+        (id) => ingredientsInMenu.filter((ingredient) => ingredient._id === id)[0]
+      );
+  
+      let orderIngriedientsWithQuantity = new Map(
+        orderIngredients.map((ingriedient) => [
+          ingriedient._id,
+          { ...ingriedient, count: 0 },
+        ])
+      );
+      for (const { _id } of orderIngredients)
+          // @ts-ignore
+        orderIngriedientsWithQuantity.get(_id).count++;
+        ingredientsWithQuantity = Array.from(orderIngriedientsWithQuantity.values());
+    }
   }
 
   return order ? (

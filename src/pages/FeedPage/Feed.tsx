@@ -1,26 +1,28 @@
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
 import { useLocation } from "react-router-dom";
 import { OrderList } from "../../components/OrderList/OrderList";
 import { OrdersDashboard } from "../../components/OrdersDashboard/OrdersDashboard";
-import { WEBSOCKET_CONNECTION_CLOSED, WEBSOCKET_CONNECTION_REQUEST } from "../../services/constants";
+import { webSocketConnectionClosedAction } from "../../services/actions/websocket";
+import { WEBSOCKET_CONNECTION_REQUEST } from "../../services/constants";
+import { useAppDispatch } from "../../services/types";
 import { WEBSOCKET_URL } from "../../utils/constants";
+
 import FeedPageStyles from "./FeedPageStyles.module.css";
 
 export const FeedPage = () => {
   const location = useLocation();
-  const dispatch = useDispatch();
+  const appDispatch = useAppDispatch();
   const webSocketUnauthorised = `${WEBSOCKET_URL}/all`;
 
   useEffect(() => {
-    dispatch({
+    appDispatch({
       type: WEBSOCKET_CONNECTION_REQUEST,
-      payload: webSocketUnauthorised
+      payload: webSocketUnauthorised,
     });
     return () => {
-      dispatch({ type: WEBSOCKET_CONNECTION_CLOSED });
+      appDispatch(webSocketConnectionClosedAction());
     };
-  }, [dispatch, location.pathname, webSocketUnauthorised]);
+  }, [appDispatch, location.pathname, webSocketUnauthorised]);
 
   return (
     <section>

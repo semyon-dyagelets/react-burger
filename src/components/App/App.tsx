@@ -10,7 +10,7 @@ import { IngredientDetails } from "../BurgerIngredients/IngredientDetails/Ingred
 import { IngredientPage } from "../../pages/IngredientPage/IngredientPage";
 import { FeedPage } from "../../pages/FeedPage/Feed";
 import { LoginPage } from "../../pages/LoginPage/Login";
-import { MainPage } from "../../pages/MainPage/MainPage";
+import { MainPage } from "../../pages/MainPage/Main";
 import { Modal } from "../Modal/Modal";
 import { NotFound404Page } from "../../pages/NotFound404Page/NotFound404";
 import { ProfilePage } from "../../pages/ProfilePage/Profile";

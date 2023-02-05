@@ -9,12 +9,14 @@ import { TOrderActions } from "../actions/order";
 import { TUserActions } from "../actions/user";
 import { TConstructorActions } from "../actions/constructor";
 import { TIngredientsActions } from "../actions/ingredients";
+import { TWebSocketFeedActions } from "../actions/websocket";
 
 export type AppActions =
   | TOrderActions
   | TUserActions
   | TConstructorActions
-  | TIngredientsActions;
+  | TIngredientsActions
+  | TWebSocketFeedActions
 export type AppDispatch = ThunkDispatch<RootState, never, AppActions>;
 export const useAppDispatch = () => dispatchHook<AppDispatch>();
 export const useAppSelector: TypedUseSelectorHook<RootState> = selectorHook;

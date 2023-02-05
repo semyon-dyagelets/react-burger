@@ -9,7 +9,7 @@ import { TWebSocketOrdersResponse } from "../types/data";
 
 export interface IWebSocketConnectionRequestAction {
   readonly type: typeof WEBSOCKET_CONNECTION_REQUEST;
-  readonly url: string;
+  readonly payload: string;
 }
 
 export interface IWebSocketConnectionSuccessAction {
@@ -37,10 +37,10 @@ export type TWebSocketFeedActions =
   | IWebSocketGetOrdersAction;
 
 export const webSocketConnectionRequestAction = (
-  url: string
+  payload: string
 ): IWebSocketConnectionRequestAction => ({
   type: WEBSOCKET_CONNECTION_REQUEST,
-  url,
+  payload,
 });
 
 export const webSocketConnectionSuccessAction =
