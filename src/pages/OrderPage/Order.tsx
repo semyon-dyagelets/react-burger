@@ -23,7 +23,7 @@ export const OrderPage = () => {
     dispatch({
       type: WEBSOCKET_CONNECTION_REQUEST,
       payload:
-        location.pathname === "/feed"
+        location.pathname.includes("/feed")
           ? webSocketUnauthorised
           : webSocketAuthorised,
     });
