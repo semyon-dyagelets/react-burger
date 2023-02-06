@@ -20,17 +20,14 @@ export const OrderPage = () => {
   )}`;
 
   useEffect(() => {
-    // dispatch({
-    //   type: WEBSOCKET_CONNECTION_REQUEST,
-    //   payload:
-    //     location.pathname === "/feed"
-    //       ? webSocketUnauthorised
-    //       : webSocketAuthorised,
-    // });
     dispatch({
       type: WEBSOCKET_CONNECTION_REQUEST,
-      payload: webSocketUnauthorised,
+      payload:
+        location.pathname === "/feed"
+          ? webSocketUnauthorised
+          : webSocketAuthorised,
     });
+
     return () => {
       dispatch(webSocketConnectionClosedAction());
     };
