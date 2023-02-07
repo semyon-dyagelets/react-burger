@@ -1,10 +1,10 @@
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import { IngredientProps } from "../../../utils/types";
+import { TIngredientInApp } from "../../../services/types/data";
 
 import BunConstructorElementStyles from "./BunConstructorElementStyles.module.css";
 
 interface BunConstructorElementProps {
-  bunSelected: IngredientProps;
+  bunSelected: TIngredientInApp;
   typeOfBun: "top" | "bottom" | undefined;
   extraText: string;
 }

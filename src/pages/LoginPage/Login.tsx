@@ -1,5 +1,4 @@
 import { useCallback, useState } from "react";
-import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 
 import {
@@ -11,11 +10,12 @@ import {
 import { authoriseUser } from "../../services/actions/user";
 
 import LoginStyles from "./LoginStyles.module.css";
+import { useAppDispatch } from "../../services/types";
 
 export const LoginPage = () => {
   const [emailInputValue, setEmailInputValue] = useState("");
   const [passwordInputValue, setPasswordInputValue] = useState("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const changeEmailInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     setEmailInputValue(event.target.value);
@@ -28,7 +28,6 @@ export const LoginPage = () => {
   const handleLogin = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      // @ts-ignore
       dispatch(authoriseUser(emailInputValue, passwordInputValue));
       setEmailInputValue("");
       setPasswordInputValue("");

@@ -1,3 +1,4 @@
+import { TUserActions } from "../actions/user";
 import {
   CHECK_AUTHORISATION,
   FORGOT_PASSWORD_FAILED,
@@ -21,9 +22,33 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_LOADING,
   UPDATE_USER_SUCCESS,
-} from "../actions/user";
+} from "../constants/index";
 
-const initialState = {
+type TUserState = {
+  authorisationFailed: boolean;
+  authorisationProcessing: boolean;
+  authorisationChecked: boolean;
+  fetchingUserDataProcessing: boolean;
+  fetchingUserDataFailed: boolean;
+  registrationFailed: boolean;
+  registrationProcessing: boolean;
+  logoutFailed: boolean;
+  logoutProcessing: boolean;
+  forgotPasswordProcessing: boolean;
+  forgotPasswordSuccess: boolean;
+  forgotPasswordFailed: boolean;
+  restorePasswordProcessing: boolean;
+  restorePasswordFailed: boolean;
+  updatingInfoFailed: boolean;
+  updatingInfoProcessing: boolean;
+  userAccessToken: string;
+  userAuthorised: boolean;
+  userEmail: string;
+  userName: string;
+  userRefreshToken: string;
+};
+
+const initialState: TUserState = {
   authorisationFailed: false,
   authorisationProcessing: false,
   authorisationChecked: false,
@@ -47,7 +72,10 @@ const initialState = {
   userRefreshToken: "",
 };
 
-export const userReducer = (state = initialState, action) => {
+export const userReducer = (
+  state = initialState,
+  action: TUserActions
+): TUserState => {
   switch (action.type) {
     case CHECK_AUTHORISATION: {
       return {
@@ -67,8 +95,8 @@ export const userReducer = (state = initialState, action) => {
         fetchingUserDataProcessing: false,
         fetchingUserDataFailed: false,
         userAuthorised: true,
-        userEmail: action.userEmail,
-        userName: action.userName,
+        userEmail: action.user.email,
+        userName: action.user.name,
       };
     }
     case GET_USER_FAILED: {
@@ -110,9 +138,9 @@ export const userReducer = (state = initialState, action) => {
         authorisationProcessing: false,
         authorisationFailed: false,
         userAuthorised: true,
-        userEmail: action.userEmail,
-        userName: action.userName,
-        userAccessToken: action.userAccessToken,
+        userEmail: action.user.email,
+        userName: action.user.name,
+        userAccessToken: action.accessToken,
       };
     }
     case LOGIN_USER_FAILED: {
@@ -156,8 +184,8 @@ export const userReducer = (state = initialState, action) => {
     case UPDATE_USER_SUCCESS: {
       return {
         ...state,
-        userEmail: action.userEmail,
-        userName: action.userName,
+        userEmail: action.user.email,
+        userName: action.user.name,
         updatingInfoProcessing: false,
         updatingInfoFailed: false,
       };

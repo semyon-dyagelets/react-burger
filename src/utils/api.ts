@@ -1,3 +1,4 @@
+import { TOrderRequest } from "../services/types/data";
 import { BASE_URL } from "./constants";
 
 import { getCookie, setCookie, checkResponse } from "./helpers";
@@ -11,11 +12,17 @@ export const getIngredients = async () =>
     method: "GET",
   });
 
-export const sendOrder = async (orderData: string[]) =>
+export const getOrderByNumber = async (oderNumber: number) =>
+  await request(`${BASE_URL}/orders/${oderNumber}`, {
+    method: "GET",
+  });
+
+export const sendOrder = async (orderData: TOrderRequest) =>
   await request(`${BASE_URL}/orders`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
+      authorization: `Bearer ${getCookie("accessToken")}`,
     },
     body: JSON.stringify(orderData),
   });
@@ -123,7 +130,7 @@ export const updateUserData = (
   updatedEmail: string,
   updatedPassword: string
 ) => {
-  fetchWithRefresh(`${BASE_URL}/auth/user`, {
+  return fetchWithRefresh(`${BASE_URL}/auth/user`, {
     method: "PATCH",
     headers: {
       "Content-Type": "application/json",

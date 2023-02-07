@@ -1,22 +1,32 @@
+import { TConstructorActions } from "../actions/constructor";
 import {
   ADD_BUN_TO_CONSTRUCTOR,
   ADD_MAIN_TO_CONSTRUCTOR,
   DELETE_BUN_FROM_CONSTRUCTOR,
   DELETE_MAIN_FROM_CONSTRUCTOR,
   SET_NEW_ORDER_OF_MAINS,
-} from "../actions/constructor";
+} from "../constants/index";
+import { TIngredientInApp } from "../types/data";
 
-const initialState = {
+type TConstructorState = {
+  buns: TIngredientInApp[];
+  mains: TIngredientInApp[];
+};
+
+const initialState: TConstructorState = {
   buns: [],
   mains: [],
 };
 
-export const constructorReducer = (state = initialState, action) => {
+export const constructorReducer = (
+  state = initialState,
+  action: TConstructorActions
+): TConstructorState => {
   switch (action.type) {
     case ADD_BUN_TO_CONSTRUCTOR: {
       return {
         ...state,
-        buns: [...state.buns, action.payload, action.payload],
+        buns: [...state.buns, action.bunToAdd, action.bunToAdd],
       };
     }
     case DELETE_BUN_FROM_CONSTRUCTOR: {
@@ -28,21 +38,21 @@ export const constructorReducer = (state = initialState, action) => {
     case ADD_MAIN_TO_CONSTRUCTOR: {
       return {
         ...state,
-        mains: [...state.mains, action.payload],
+        mains: [...state.mains, action.mainToAdd],
       };
     }
     case DELETE_MAIN_FROM_CONSTRUCTOR: {
       return {
         ...state,
         mains: [...state.mains].filter(
-          (element) => element.customId !== action.payload.customId
+          (element) => element.customId !== action.mainToDelete.customId
         ),
       };
     }
     case SET_NEW_ORDER_OF_MAINS: {
       return {
         ...state,
-        mains: action.payload,
+        mains: Object.assign([], action.setOfMains),
       };
     }
     default: {

@@ -1,6 +1,5 @@
 import { useCallback, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import {
   Button,
   EmailInput,
@@ -9,9 +8,10 @@ import {
 import { requestForNewPassword } from "../../services/actions/user";
 
 import ForgotPasswordStyles from "./ForgotPasswordStyles.module.css";
+import { useAppDispatch } from "../../services/types";
 
 export const ForgotPasswordPage = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const history = useHistory();
   const [emailValue, setEmailValue] = useState("");
   const onChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -21,8 +21,8 @@ export const ForgotPasswordPage = () => {
   const handleResetClick = useCallback(
     (event: React.FormEvent<HTMLFormElement>) => {
       event.preventDefault();
-      // @ts-ignore
-      dispatch(requestForNewPassword(emailValue, history));
+      dispatch(requestForNewPassword(emailValue));
+      history.push("/reset-password");
       setEmailValue("");
     },
     [dispatch, emailValue, history]

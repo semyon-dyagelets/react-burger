@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import {
   Button,
   Input,
@@ -8,18 +7,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 
 import { restoreWithNewPassword } from "../../services/actions/user";
-
+import { useAppDispatch, useAppSelector } from "../../services/types";
 import ResetPasswordStyles from "./ResetPasswordStyles.module.css";
 
 export const ResetPasswordPage = () => {
   const [passwordValue, setPasswordValue] = useState("");
   const [codeValue, setCodeValue] = useState("");
-
-  const { forgotPasswordSuccess } = useSelector(
-    (state: any) => state.userState
-  );
-
-  const dispatch = useDispatch();
+  const { forgotPasswordSuccess } = useAppSelector((state) => state.userState);
+  const dispatch = useAppDispatch();
   const history = useHistory();
 
   const onCodeInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,11 +26,11 @@ export const ResetPasswordPage = () => {
   ) => {
     setPasswordValue(event.target.value);
   };
-
+  
   const handleSaveClick = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    // @ts-ignore
-    dispatch(restoreWithNewPassword(passwordValue, codeValue, history));
+    dispatch(restoreWithNewPassword(passwordValue, codeValue));
+    history.push("/login");
     setPasswordValue("");
     setCodeValue("");
   };

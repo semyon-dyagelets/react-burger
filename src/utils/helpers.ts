@@ -1,5 +1,5 @@
 import { v4 as uuid } from "uuid";
-import { IngredientProps } from "./types";
+import { TIngredientInApp } from "../services/types/data";
 
 export const checkResponse = (response: Response) => {
   if (response.ok) {
@@ -8,14 +8,14 @@ export const checkResponse = (response: Response) => {
   return Promise.reject(`Ошибка ${response.status}`);
 };
 
-export const prepareIdsForOrder = (elements: IngredientProps[]) => {
+export const prepareIdsForOrder = (elements: TIngredientInApp[]) => {
   const elementsIds = elements.map((element) => element._id);
-    elementsIds.push(elementsIds.shift() as string);
-    const resultToSend = { ingredients: elementsIds };
-    return resultToSend;
+  elementsIds.push(elementsIds.shift() as string);
+  const resultToSend = { ingredients: elementsIds };
+  return resultToSend;
 };
 
-export const omitQuantityAddCustomId = (initialElement: IngredientProps) => {
+export const omitQuantityAddCustomId = (initialElement: TIngredientInApp) => {
   const { quantityInOrder, ...noQuantityElement } = initialElement;
   const elementWithCustomIdandNoQuantity = {
     ...noQuantityElement,
@@ -24,7 +24,7 @@ export const omitQuantityAddCustomId = (initialElement: IngredientProps) => {
   return elementWithCustomIdandNoQuantity;
 };
 
-export function getCookie(name: string) {
+export function getCookie(name: string): string | undefined {
   const matches = document.cookie.match(
     new RegExp(
       "(?:^|; )" +
@@ -38,7 +38,7 @@ export function getCookie(name: string) {
 export function setCookie(
   name: string,
   value: string | number | boolean,
-  props?: any
+  props?: { [key: string]: any } & { expires?: number | Date | string }
 ) {
   props = props || {};
   let exp = props.expires;
@@ -47,8 +47,8 @@ export function setCookie(
     d.setTime(d.getTime() + exp * 1000);
     exp = props.expires = d;
   }
-  if (exp && exp.toUTCString) {
-    props.expires = exp.toUTCString();
+  if (exp && (exp as Date).toUTCString) {
+    props.expires = (exp as Date).toUTCString();
   }
   value = encodeURIComponent(value);
   let updatedCookie = name + "=" + value;
