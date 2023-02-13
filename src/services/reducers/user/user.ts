@@ -1,4 +1,4 @@
-import { TUserActions } from "../actions/user";
+import { TUserActions } from "../../actions/user";
 import {
   CHECK_AUTHORISATION,
   FORGOT_PASSWORD_FAILED,
@@ -22,7 +22,7 @@ import {
   UPDATE_USER_FAILED,
   UPDATE_USER_LOADING,
   UPDATE_USER_SUCCESS,
-} from "../constants/index";
+} from "../../constants/index";
 
 type TUserState = {
   authorisationFailed: boolean;
@@ -45,10 +45,9 @@ type TUserState = {
   userAuthorised: boolean;
   userEmail: string;
   userName: string;
-  userRefreshToken: string;
 };
 
-const initialState: TUserState = {
+export const initialState: TUserState = {
   authorisationFailed: false,
   authorisationProcessing: false,
   authorisationChecked: false,
@@ -69,7 +68,6 @@ const initialState: TUserState = {
   userAuthorised: false,
   userEmail: "",
   userName: "",
-  userRefreshToken: "",
 };
 
 export const userReducer = (
@@ -164,7 +162,6 @@ export const userReducer = (
         userAuthorised: false,
         userEmail: "",
         userName: "",
-        userRefreshToken: "",
         authorisationChecked: false,
       };
     }
@@ -235,7 +232,7 @@ export const userReducer = (
       return {
         ...state,
         restorePasswordProcessing: false,
-        restorePasswordFailed: false,
+        restorePasswordFailed: true,
       };
     }
     default: {

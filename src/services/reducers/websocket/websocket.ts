@@ -1,12 +1,12 @@
-import { TWebSocketFeedActions } from "../actions/websocket";
+import { TWebSocketFeedActions } from "../../actions/websocket";
 import {
   WEBSOCKET_CONNECTION_CLOSED,
   WEBSOCKET_CONNECTION_FAILED,
   WEBSOCKET_CONNECTION_REQUEST,
   WEBSOCKET_CONNECTION_SUCCESS,
   WEBSOCKET_GET_ORDERS,
-} from "../constants/index";
-import { TWebSocketOrder } from "../types/data";
+} from "../../constants/index";
+import { TWebSocketOrder } from "../../types/data";
 
 type TWebSocketState = {
   websocketConnected: boolean;
@@ -15,7 +15,7 @@ type TWebSocketState = {
   ordersTodayQuantity: number;
 };
 
-const initialState: TWebSocketState = {
+export const initialState: TWebSocketState = {
   websocketConnected: false,
   orders: [],
   ordersTotalQuantity: 0,

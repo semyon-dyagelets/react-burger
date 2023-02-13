@@ -1,5 +1,6 @@
 .header {
   background: #1c1c21;
+  min-width: 1240px;
   max-width: 1920px;
 }
 

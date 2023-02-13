@@ -19,7 +19,10 @@ export const IngredientCard = ({ ingredient }: IngredientCardProps) => {
   });
 
   return (
-    <div className={IngredientCardStyles.card} ref={dragRef}>
+    <div
+      className={IngredientCardStyles.card}
+      ref={dragRef}
+    >
       {quantityInOrder ? (
         <Counter count={quantityInOrder} size="default" extraClass="m-1" />
       ) : null}

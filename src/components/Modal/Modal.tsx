@@ -41,6 +41,7 @@ export const Modal = ({
           type="button"
           className={`${ModalStyles.modal__close} ${buttonCloseClassName}`}
           onClick={onClose}
+          data-test-id="modal-button-close"
         >
           <CloseIcon type="primary" />
         </button>

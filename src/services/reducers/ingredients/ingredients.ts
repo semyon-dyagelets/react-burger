@@ -1,12 +1,12 @@
-import { TIngredientsActions } from "../actions/ingredients";
+import { TIngredientsActions } from "../../actions/ingredients";
 import {
   FETCH_INGREDIENTS_REQUEST,
   FETCH_INGREDIENTS_SUCCESS,
   FETCH_INGREDIENTS_ERROR,
   INCREASE_INGREDIENT_COUNT,
   DECREASE_INGREDIENT_COUNT,
-} from "../constants/index";
-import { TIngredientInApp } from "../types/data";
+} from "../../constants/index";
+import { TIngredientInApp } from "../../types/data";
 
 type TIngredientsState = {
   ingredients: ReadonlyArray<TIngredientInApp>;
@@ -14,7 +14,7 @@ type TIngredientsState = {
   ingredientsFailed: boolean;
 };
 
-const initialState: TIngredientsState = {
+export const initialState: TIngredientsState = {
   ingredients: [],
   ingredientsLoading: false,
   ingredientsFailed: false,
