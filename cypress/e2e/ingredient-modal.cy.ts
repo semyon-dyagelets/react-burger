@@ -1,16 +1,17 @@
 /// <reference types="cypress" />
 
+import { selectors } from "./constants";
+
 describe("Ingredient modal", () => {
   beforeEach(() => {
     cy.viewport(1440, 800);
-    cy.visit("http://localhost:3000");
-    cy.get('[data-test-id="ingredient-card"]').first().as("ingredient");
+    cy.visit('/');
   });
 
   it("should be opened by click on card", () => {
-    cy.get("@ingredient").click();
+    cy.get(selectors.ingredientCard).first().click();
 
-    cy.get('[data-test-id="ingredient-modal-container"]').should("exist");
+    cy.get(selectors.ingredientModalContainer).should("exist");
     cy.get('[data-test-id="ingredient-modal-title"]').should(
       "contain",
       "Детали ингредиента"
@@ -34,9 +35,9 @@ describe("Ingredient modal", () => {
   });
 
   it("should be closed by click on close button", () => {
-    cy.get("@ingredient").click();
+    cy.get(selectors.ingredientCard).first().click();
 
-    cy.get('[data-test-id="modal-button-close"]').click();
-    cy.get('[data-test-id="ingredient-modal-container"]').should("not.exist");
+    cy.get(selectors.modalButtonClose).click();
+    cy.get(selectors.ingredientModalContainer).should("not.exist");
   });
 });

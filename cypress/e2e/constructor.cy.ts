@@ -1,64 +1,63 @@
 /// <reference types="cypress" />
 
 import "@4tw/cypress-drag-drop";
+import { selectors } from "./constants";
 
 describe("Constructor workflow", () => {
   beforeEach(() => {
     cy.viewport(1440, 800);
-    cy.visit("http://localhost:3000/");
-    cy.get('[data-test-id="ingredients-buns"]').as("buns");
-    cy.get('[data-test-id="ingredients-sauces"]').as("sauces");
-    cy.get('[data-test-id="ingredients-mains"]').as("mains");
-    cy.get('[data-test-id="constructor-target"]').as("constructor");
+    cy.visit("/");
   });
 
   it("should allow to drag and drop any kind of ingredients", () => {
-    cy.get("@buns")
-      .find('[data-test-id="ingredient-card"]')
+    cy.get(selectors.bunsIngredients)
+      .find(selectors.ingredientCard)
       .first()
-      .drag("@constructor");
-    cy.get("@sauces")
-      .find('[data-test-id="ingredient-card"]')
+      .drag(selectors.constructor);
+
+    cy.get(selectors.saucesIngredients)
+      .find(selectors.ingredientCard)
       .last()
-      .drag("@constructor");
-    cy.get("@mains")
-      .find('[data-test-id="ingredient-card"]')
+      .drag(selectors.constructor);
+
+    cy.get(selectors.mainsIngredients)
+      .find(selectors.ingredientCard)
       .first()
-      .drag("@constructor");
+      .drag(selectors.constructor);
   });
 
   it("should allow to change buns by drag and drop", () => {
-    cy.get("@buns")
-      .find('[data-test-id="ingredient-card"]')
+    cy.get(selectors.bunsIngredients)
+      .find(selectors.ingredientCard)
       .first()
-      .drag("@constructor");
+      .drag(selectors.constructor);
 
-    cy.get(".constructor-element__text")
+    cy.get(selectors.constructorElementText)
       .first()
       .should("contain", "Краторная булка N-200i (верх)");
 
-    cy.get("@sauces")
-      .find('[data-test-id="ingredient-card"]')
+    cy.get(selectors.saucesIngredients)
+      .find(selectors.ingredientCard)
       .last()
-      .drag("@constructor");
+      .drag(selectors.constructor);
 
-    cy.get("@buns")
-      .find('[data-test-id="ingredient-card"]')
+    cy.get(selectors.bunsIngredients)
+      .find(selectors.ingredientCard)
       .last()
-      .drag("@constructor");
+      .drag(selectors.constructor);
 
-    cy.get(".constructor-element__text")
+    cy.get(selectors.constructorElementText)
       .first()
       .should("contain", "Флюоресцентная булка R2-D3 (верх)");
   });
 
   it("should allow to delete ingredients by click on icon", () => {
-    cy.get("@sauces")
-      .find('[data-test-id="ingredient-card"]')
+    cy.get(selectors.saucesIngredients)
+      .find(selectors.ingredientCard)
       .last()
-      .drag("@constructor");
+      .drag(selectors.constructor);
 
-    cy.get(".constructor-element__action").find("svg").click();
-    cy.get(".constructor-element__action").should("not.exist");
+    cy.get(selectors.constructorElementAction).find("svg").click();
+    cy.get(selectors.constructorElementAction).should("not.exist");
   });
 });

@@ -46,7 +46,10 @@ export const BurgerIngredients = () => {
 
   return (
     <>
-      <section className={BurgerIngredientsStyles.ingredients}>
+      <section
+        className={BurgerIngredientsStyles.ingredients}
+        data-test-id="burger-ingredients-section"
+      >
         <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
         <div className="mt-5">
           <Tabs
