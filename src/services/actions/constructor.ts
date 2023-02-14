@@ -42,7 +42,7 @@ export const addBunToConstructorAction = (
   bunToAdd,
 });
 
-export const deleteBunToConstructorAction =
+export const deleteBunFromConstructorAction =
   (): IDeleteBunFromConstructorAction => ({
     type: DELETE_BUN_FROM_CONSTRUCTOR,
   });

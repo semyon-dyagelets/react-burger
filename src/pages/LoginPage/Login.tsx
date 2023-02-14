@@ -46,19 +46,20 @@ export const LoginPage = () => {
           onChange={changeEmailInput}
           placeholder="E-mail"
           extraClass="mt-6"
-        ></EmailInput>
+        />
         <PasswordInput
           value={passwordInputValue}
           onChange={changePasswordInput}
           placeholder="Пароль"
           extraClass="mt-6"
-        ></PasswordInput>
+        />
         <Button
           htmlType="submit"
           type="primary"
           size="medium"
           extraClass="mt-6"
           disabled={!emailInputValue || !passwordInputValue}
+          data-test-id="login-button"
         >
           Войти
         </Button>

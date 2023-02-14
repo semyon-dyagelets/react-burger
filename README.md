@@ -1,6 +1,5 @@
 <h1 align="center">
-<a href="https://semyon-dyagelets.github.io/react-burger/">
-⭐ Stellar Burgers 🍔
+⭐<a href="https://semyon-dyagelets.github.io/react-burger/">Stellar Burgers</a>🍔 
 </h1>
 
 <p align="center">

@@ -46,7 +46,10 @@ export const BurgerIngredients = () => {
 
   return (
     <>
-      <section className={BurgerIngredientsStyles.ingredients}>
+      <section
+        className={BurgerIngredientsStyles.ingredients}
+        data-test-id="burger-ingredients-section"
+      >
         <h1 className="text text_type_main-large mt-10">Соберите бургер</h1>
         <div className="mt-5">
           <Tabs
@@ -67,9 +70,10 @@ export const BurgerIngredients = () => {
           <ul
             className={`${BurgerIngredientsStyles.categories} pt-6 pb-10 pl-4`}
             ref={bunsRef}
+            data-test-id="ingredients-buns"
           >
             {buns.map((item) => (
-              <li key={item._id}>
+              <li key={item._id} data-test-id="ingredient-card">
                 <Link
                   to={{
                     pathname: `/ingredients/${item._id}`,
@@ -87,9 +91,10 @@ export const BurgerIngredients = () => {
           <ul
             className={`${BurgerIngredientsStyles.categories} pt-6 pb-10 pl-4`}
             ref={saucesRef}
+            data-test-id="ingredients-sauces"
           >
             {sauces.map((item) => (
-              <li key={item._id}>
+              <li key={item._id} data-test-id="ingredient-card">
                 <Link
                   to={{
                     pathname: `/ingredients/${item._id}`,
@@ -105,9 +110,10 @@ export const BurgerIngredients = () => {
           <ul
             ref={fillingsRef}
             className={`${BurgerIngredientsStyles.categories} pt-6 pb-10 pl-4`}
+            data-test-id="ingredients-mains"
           >
             {mains.map((item) => (
-              <li key={item._id}>
+              <li key={item._id} data-test-id="ingredient-card">
                 <Link
                   to={{
                     pathname: `/ingredients/${item._id}`,

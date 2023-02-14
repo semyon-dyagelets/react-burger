@@ -12,7 +12,7 @@ import { createOrder } from "../../services/actions/order";
 import {
   addBunToConstructorAction,
   addMainToConstructorAction,
-  deleteBunToConstructorAction,
+  deleteBunFromConstructorAction,
   deleteMainFromConstructorAction,
   setNewOrderOfMainsInConstructorAction,
 } from "../../services/actions/constructor";
@@ -74,7 +74,7 @@ export const BurgerConstructor = () => {
         return;
       }
       if (buns.length === 2 && ingredient._id !== bunSelected._id) {
-        dispatch(deleteBunToConstructorAction());
+        dispatch(deleteBunFromConstructorAction());
         dispatch(decreaseIngredientAction(bunSelected));
         dispatch(
           addBunToConstructorAction(omitQuantityAddCustomId(ingredient))
@@ -118,7 +118,11 @@ export const BurgerConstructor = () => {
       <section
         className={`${BurgerConstructorStyles.constructor} pt-25 pr-4 pl-4`}
       >
-        <div className={BurgerConstructorStyles.elements} ref={dropTarget}>
+        <div
+          className={BurgerConstructorStyles.elements}
+          ref={dropTarget}
+          data-test-id="constructor-target"
+        >
           {bunSelected && (
             <BunConstructorElement
               typeOfBun="top"
@@ -162,6 +166,7 @@ export const BurgerConstructor = () => {
             size="large"
             onClick={handleCreateOrder}
             disabled={!hasIngridientsInOrder}
+            data-test-id="constructor-button-order"
           >
             Оформить заказ
           </Button>
@@ -172,6 +177,7 @@ export const BurgerConstructor = () => {
           onClose={closeOrderModal}
           className={`${BurgerConstructorStyles.modal__content_constructor} pt-30 pr-10 pb-30 pl-10`}
           buttonCloseClassName={`${BurgerConstructorStyles.modal__close_constructor}`}
+          data-test-id="modal-order-container"
         >
           <OrderDetails />
         </Modal>

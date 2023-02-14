@@ -7,7 +7,7 @@ import {
 } from "../constants";
 
 export type TUser = {
-  readonly password: string;
+  readonly password?: string;
   readonly email: string;
   readonly name: string;
 };

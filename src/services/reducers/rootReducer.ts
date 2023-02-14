@@ -1,9 +1,9 @@
 import { combineReducers } from "redux";
-import { constructorReducer } from "./constructor";
-import { ingredientsReducer } from "./ingredients";
-import { orderReducer } from "./order";
-import { userReducer } from "./user";
-import { websocketReducer } from "./websocket";
+import { constructorReducer } from "./constructor/constructor";
+import { ingredientsReducer } from "./ingredients/ingredients";
+import { orderReducer } from "./order/order";
+import { userReducer } from "./user/user";
+import { websocketReducer } from "./websocket/websocket";
 
 export const rootReducer = combineReducers({
   ingredientsState: ingredientsReducer,
